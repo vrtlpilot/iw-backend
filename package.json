@@ -1,0 +1,23 @@
+{
+  "name": "ico-world",
+  "version": "1.0.0",
+  "description": "icoWorld",
+  "main": "node ./build/index.js",
+  "engines": {
+    "node": ">= 8.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "dschipunov",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.0.0",
+    "apollo-server-koa": "^2.0.0-rc.12",
+    "graphql": "^0.13.2",
+    "koa": "^2.5.2",
+    "mongodb": "^3.1.1",
+    "mongoose": "^5.2.5"
+  }
+}

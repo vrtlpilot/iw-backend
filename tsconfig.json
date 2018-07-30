@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "outDir": "build",
+        "target": "es6",
+        "module": "commonjs",
+        "sourceMap": true,
+        "watch": true,
+        "baseUrl": "./",
+        "paths": {
+            "*": [ "node_modules/@types/*", "*"]
+        },
+        "lib": [
+            "es2017",
+            "dom",
+            "esnext"
+          ]
+    },
+    "exclude": [
+        "node_modules",
+        "coverage",
+        "build",
+        ".git"
+      ]
+}
