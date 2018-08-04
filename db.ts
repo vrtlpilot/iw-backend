@@ -1,7 +1,7 @@
 import mongoose = require('mongoose');
 require('dotenv').config();
 
-const DB_URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@ds161751.mlab.com:61751/iwdb`;
+const DB_URI = process.env.DB_URI;
 
 // Setup DB.
 const dbOptions = {
