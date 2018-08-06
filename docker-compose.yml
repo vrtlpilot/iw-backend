@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+    db:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: password
+        volumes:
+            - mongo-data:/var/lib/mongodb #for Debian/Ubuntu
+        ports:
+            - "8081:8081"
+volumes:
+    mongo-data: {}
