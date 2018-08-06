@@ -1,0 +1,8 @@
+In order to run the application you need:
+1. Compile the project sources js->ts via tsc compiler.
+2. Setup the .env file(it should be placed on the same level as icoWorld project dir). 
+    Currently you should fill the following variables: 
+    PORT - desired (free) port
+    DB_URI. - DB URI points to mongo DB.
+3. Run the project: 'node build/server.js'.    
+    
