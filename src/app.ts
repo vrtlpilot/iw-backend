@@ -10,13 +10,13 @@ const router = new Router();
 app.use(bodyParser());
 
 router.post('/signup', async (ctx) => {
-    const { username, email, password } = ctx.request.body;
+    const { username, email, password } = ctx.request.body as any;
     const token = await signUp(username, email, password);
     ctx.body = { token };
 });
 
 router.post('/login', async (ctx) => {
-    const { email, password } = ctx.request.body;
+    const { email, password } = ctx.request.body as any;
     const token = await login(email, password);
     ctx.body = { token };
 });
