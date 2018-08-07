@@ -13,19 +13,36 @@ const Query = gql(`
 // Mutation definition.
 const Mutation = gql(`
     type Mutation {
-        createUser(name: String!, email: String!, company: String!): User!
-        updateUser(id: ID!, name: String, email: String, company: String): User!
+        createUser(name: String!, pwd: String!, email: String!): User!
+        updateUser(id: ID!, name: String, company: String, location: String): User!
         removeUser(id: ID!): User!
     }
 `);
 
 // Types definition.
 const Types = gql(`
+    type File {
+        filename: String!
+        mimetype: String!
+        encoding: String!
+    }
+
+    type Employment {
+        company: String!
+        postition: String!
+    }
+
     type User {
         id: ID!
         name: String!
         email: String!
-        company: String!
+        pwd: String!
+        phone: String
+        job: Employment
+        photo: File
+        avatar: File
+        location: String
+        clinks: [String]
     }
 `);
 

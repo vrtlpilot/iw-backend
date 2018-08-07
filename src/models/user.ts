@@ -1,6 +1,4 @@
 import mongoose = require('mongoose');
-import Image from './Image';
-import Employment from './Employment';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
@@ -23,9 +21,12 @@ const schema = new Schema({
         }
     },
     phone: String,
-    job: Employment,
-    photo: Image,
-    avatar: Image,
+    job: {
+        company: String,
+        position: String
+    },
+    photo: Buffer,
+    avatar: Buffer,
     location: String,
     clinks: [String],
     deals: [ObjectId],
