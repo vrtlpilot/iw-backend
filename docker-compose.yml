@@ -4,20 +4,17 @@ services:
   db:
     image: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "password"
     ports:
-        - "8081:8081"
+        - "27017:27017"
     volumes:
-      - mongo-data:/var/lib/mongodb
+      - "./mongo-data:/var/lib/mongodb"
 
   app:
       build: .
-      # image: backend:0.1.1
       ports:
-        - "8000:8000"
+        - "3000:3000"
       depends_on:
-        - db
-      
-volumes:
-  mongo-data: {}
+        - "db"
+      command: ["./wait-for-it.sh", "db:27017", "--", "npm", "start"]
