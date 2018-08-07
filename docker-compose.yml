@@ -1,15 +1,20 @@
-version: "2"
+version: '2'
 
 services:
-    db:
-        image: mongo
-        restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: password
-        volumes:
-            - mongo-data:/var/lib/mongodb #for Debian/Ubuntu
-        ports:
-            - "8081:8081"
-volumes:
-    mongo-data: {}
+  db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "password"
+    ports:
+        - "27017:27017"
+    volumes:
+      - "./mongo-data:/var/lib/mongodb"
+
+  app:
+      build: .
+      ports:
+        - "3000:3000"
+      depends_on:
+        - "db"
+      command: ["./wait-for-it.sh", "db:27017", "--", "npm", "start"]
