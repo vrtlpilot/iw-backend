@@ -1,9 +1,12 @@
 In order to run the application you need:
+
 1. Compile the project sources. Run 'tsc' in the root project folder or run 'npm run build'.
+
 2. Setup the 'NODE.JS_CWD\.env' file(it should be placed in the node.js current working directory). 
     Currently you should fill the following variables: 
     PORT - desired (free) port
     DB_URI. - DB URI points to mongo DB.
+    
 3. Run the project:
     1. via npm 'npm run start'
     2. or directly: 'node build/server.js'.    
