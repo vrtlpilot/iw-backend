@@ -2,10 +2,10 @@
     "compilerOptions": {
         "rootDir": "./src",
         "outDir": "./build",
-        "target": "es6",
+        "target": "es2017",
         "module": "commonjs",
         "sourceMap": true,
-        "watch": true,
+        "watch": false,
         "baseUrl": "./",
         "paths": {
             "*": [ "node_modules/@types/*", "*"]
