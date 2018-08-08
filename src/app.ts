@@ -10,8 +10,8 @@ const router = new Router();
 app.use(bodyParser());
 
 router.post('/signup', async (ctx) => {
-    const { username, email, password } = ctx.request.body as any;
-    const token = await signUp(username, email, password);
+    const { firstName, lastName, email, password } = ctx.request.body as any;
+    const token = await signUp(firstName, lastName, email, password);
     ctx.body = { token };
 });
 
