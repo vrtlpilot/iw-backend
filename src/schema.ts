@@ -1,4 +1,5 @@
-import Resolvers from './resolvers';
+import QueryImpl from './resolvers/query';
+import MutationImpl from './resolvers/mutation';
 import { gql, Config } from "apollo-server";
 
 
@@ -16,6 +17,8 @@ const Mutation = gql(`
         createUser(name: String!, pwd: String!, email: String!): User!
         updateUser(id: ID!, name: String, company: String, location: String): User!
         removeUser(id: ID!): User!
+
+        upload(file: Upload!): File!
     }
 `);
 
@@ -48,11 +51,14 @@ const Types = gql(`
 
 
 // Construct a config which contains typedefs and resolvers.
-const config:Config = {
-  typeDefs: [
-    Query, Mutation, Types
-  ],
-  resolvers: Resolvers,
+const config: Config = {
+    typeDefs: [
+        Query, Mutation, Types
+    ],
+    resolvers: {
+        Query: QueryImpl,
+        Mutation: MutationImpl
+    },
 };
 
 export default config;

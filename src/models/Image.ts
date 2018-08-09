@@ -1,6 +1,8 @@
 import mongoose = require('mongoose');
 
-const schema = new mongoose.Schema({
+// Image schema definition.
+export const Image = new mongoose.Schema({
+    name: String,
     data: {
         type: Buffer,
         required: true
@@ -11,4 +13,4 @@ const schema = new mongoose.Schema({
     }
 });
   
-export default mongoose.model('Image', schema);
+export default mongoose.model('Image', Image);
