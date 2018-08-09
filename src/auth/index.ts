@@ -1,6 +1,6 @@
 import * as jsonwebtoken from 'jsonwebtoken';
-import * as bcrypt from 'bcrypt';
 import User from '../models/user';
+import * as crypto from 'crypto';
 
 const secret = 'secret';
 
@@ -9,13 +9,15 @@ function generateToken(userData, options) {
   return jsonwebtoken.sign(userData, secret);
 }
 
+function createHash(data) {
+  return crypto.createHash('sha256').update(data).digest('hex');
+}
+
 async function signUp(firstName: string, lastName: string, email: string, password: string): Promise<string> {
-  const saltRounds = 10;
-  const hash = await bcrypt.hash(password, saltRounds);
   const userData = {
     name: `${firstName} ${lastName}`,
     email,
-    pwd: hash
+    pwd: createHash(password)
   }
   const user = new User(userData);
   const { _id, name } = (await user.save()) as any;
@@ -27,7 +29,7 @@ async function login(email: string, password: string): Promise<string> {
   if (!user) {
     throw new Error('No user with that email');
   }
-  const isValidPassword = await bcrypt.compare(password, user.pwd);
+  const isValidPassword = createHash(password) === user.pwd;
   if (!isValidPassword) {
     throw new Error('Incorrect password');
   }
