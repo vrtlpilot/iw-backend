@@ -4,7 +4,8 @@ import * as passport from 'koa-passport';
 import * as Router from 'koa-router';
 import * as bodyParser from 'koa-bodyparser';
 import * as serve from 'koa-static';
-import { signUp, login } from './auth';
+/* import { signUp, login } from './auth'; */
+import applyAuthMiddleware from './auth';
 
 // Initialize of Koa application.
 const app = new Koa();
@@ -13,7 +14,7 @@ const router = new Router();
 app.use(serve('public'));
 app.use(bodyParser());
 
-app.keys = [process.env.SESSION_KEYS];
+app.keys = [/* process.env.SESSION_KEYS */' keys'];
 const CONFIG = {
     key: 'sess:key',  /** (string) cookie key */
     maxAge: 86400000, /** (number) maxAge in ms (default is 1 days) */
@@ -28,8 +29,14 @@ app.use(session(CONFIG, app));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(async (ctx, next) => {
+    console.log('session')
+    console.log(ctx.session)
+    await next();
+})
+
 // Signup request handler.
-router.post('/signup', async (ctx:Koa.Context) => {
+/* router.post('/signup', async (ctx:Koa.Context) => {
     const { firstName, lastName, email, password } = ctx.request.body as any;
     const token = await signUp(firstName, lastName, email, password);
     ctx.body = { token };
@@ -45,7 +52,9 @@ router.post('/login', async (ctx:Koa.Context) => {
         // should be IWError type error.
         ctx.throw(err.status, err.message);
     }
-});
+}); */
+
+applyAuthMiddleware(router);
 
 // Logout request handler.
 router.get('/logout', async (ctx:Koa.Context) => {
