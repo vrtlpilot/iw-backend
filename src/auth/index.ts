@@ -71,7 +71,12 @@ passport.use('local-signup', new LocalStrategy({
       email,
       pwd: createDigest(password)
     };
-    const user = await User.create(userData);
+    let user;
+    try {
+      user = await User.create(userData);
+    } catch (err) {
+      return done(err);
+    }
     return done(null, user);
   }
 ));
@@ -84,34 +89,35 @@ passport.use('local-login', new LocalStrategy({
     const user = await User.findOne({ email }) as any;
     if (!user) {
       // throw new IWError(401, `Cannot find user with email: ${email}`)
-      done(new Error(`Cannot find user with email: ${email}`));
+      return done(new Error(`Cannot find user with email: ${email}`));
     }
     const isValidPassword = createDigest(password) === user.pwd;
     if (!isValidPassword) {
       //  new IWError(401, `Incorrect password for user: ${user.name}`);
-      done(null, false);
+      return done(null, false);
     }
-    done(null, user);
+    return done(null, user);
   })
 );
 
 
 export default function(router) {
-  router.post('/signup', passport.authenticate('local-signup',), async (ctx) => {
+  /* router.post('/signup', passport.authenticate('local-signup',), async (ctx) => {
     const user = ctx.state.user;
     ctx.body = { user };
-  });
+  }); */
 
-  /* router.post('/signup', async (ctx, next) => {
-    await passport.authenticate('local-signup', (err, user) => {
+  router.post('/signup', async (ctx, next) => {
+    await passport.authenticate('local-signup', async (err, user) => {
       if (err) {
         const { message } = err;
-        ctx.body = { message };
+        ctx.body = { error: message };
       } else {
+        await ctx.login(user);
         ctx.body = { user };
       }
     })(ctx, next);
-  }); */
+  });
 
   /* router.post('/login', passport.authenticate('local-login'), (ctx) => {
       const user = ctx.state.user;
@@ -120,10 +126,12 @@ export default function(router) {
   ); */
 
   router.post('/login', async (ctx, next) => {
-    await passport.authenticate('local-login', async (err, user, info) => {
+    await passport.authenticate('local-login', async (err, user) => {
       if (err) {
         const { message } = err;
         ctx.body = { error: message };
+      } else if (!user) {
+        ctx.body = { error: 'Incorrect password' };
       } else {
         await ctx.login(user);
         ctx.body = user;
@@ -136,9 +144,9 @@ export default function(router) {
     ctx.body = 'logout';
   });
 
-  /* router.get('/success', async (ctx) => {
-    ctx.body = 'success'
-  }) */
+  router.get('/success', async (ctx) => {
+    ctx.body = 'success';
+  });
 
   /* router.get('/fail', async (ctx) => {
     ctx.body = 'fail'
