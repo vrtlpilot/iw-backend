@@ -16,53 +16,58 @@ passport.serializeUser((user: any, done) => {
 });
 
 passport.deserializeUser(async (userId: any, done) => {
-  const user = await User.findById(userId);
-  done(null, user);
+  try {
+    const user = await User.findById(userId);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
 });
 
 passport.use('local-signup', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback: true,
-  },
-  async function(ctx, email, password, done) {
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: true,
+},
+  async function (ctx, email, password, done) {
     const { firstName, lastName } = ctx.body;
     const userData = {
       name: `${firstName} ${lastName}`,
       email,
       pwd: createDigest(password)
     };
-    let user;
     try {
-      user = await User.create(userData);
+      const user = await User.create(userData);
+      return done(null, user);
     } catch (err) {
       return done(err);
     }
-    return done(null, user);
   }
 ));
 
 passport.use('local-login', new LocalStrategy({
-    usernameField : 'email',
-    passwordField : 'password'
-  },
+  usernameField: 'email',
+  passwordField: 'password'
+},
   async (email, password, done) => {
-    const user = await User.findOne({ email }) as any;
-    if (!user) {
-      // throw new IWError(401, `Cannot find user with email: ${email}`)
-      return done(new Error(`Cannot find user with email: ${email}`));
+    try {
+      const user = await User.findOne({ email }) as any;
+      // Check an user.
+      if (!user) {
+        throw new IWError(401, `Cannot find user with email: ${email}`);
+      }
+      const valid = createDigest(password) === user.pwd;
+      if (!valid) {
+        throw new IWError(401, `Incorrect password for user: ${user.name}`);
+      }
+      return done(null, user);
+    } catch (err) {
+      return done(err);
     }
-    const isValidPassword = createDigest(password) === user.pwd;
-    if (!isValidPassword) {
-      // new IWError(401, `Incorrect password for user: ${user.name}`);
-      return done(null, false);
-    }
-    return done(null, user);
   })
 );
 
-
-export default function(router) {
+export default function (router) {
   router.post('/signup', async (ctx, next) => {
     await passport.authenticate('local-signup', async (err, user) => {
       if (err) {

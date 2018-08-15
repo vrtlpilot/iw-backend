@@ -4,7 +4,6 @@ import * as passport from 'koa-passport';
 import * as Router from 'koa-router';
 import * as bodyParser from 'koa-bodyparser';
 import * as serve from 'koa-static';
-/* import { signUp, login } from './auth'; */
 import applyAuthMiddleware from './auth';
 
 // Initialize of Koa application.
@@ -14,7 +13,7 @@ const router = new Router();
 app.use(serve('public'));
 app.use(bodyParser());
 
-app.keys = [/* process.env.SESSION_KEYS */' keys'];
+app.keys = [process.env.SESSION_KEYS || ' keys'];
 const CONFIG = {
     key: 'sess:key',  /** (string) cookie key */
     maxAge: 86400000, /** (number) maxAge in ms (default is 1 days) */
@@ -35,31 +34,8 @@ app.use(async (ctx, next) => {
     await next();
 })
 
-// Signup request handler.
-/* router.post('/signup', async (ctx:Koa.Context) => {
-    const { firstName, lastName, email, password } = ctx.request.body as any;
-    const token = await signUp(firstName, lastName, email, password);
-    ctx.body = { token };
-});
-
-// Login request handler.
-router.post('/login', async (ctx:Koa.Context) => {
-    const { email, password } = ctx.request.body as any;
-    try {
-        const token = await login(email, password);
-        ctx.body = { token };
-    } catch(err) {
-        // should be IWError type error.
-        ctx.throw(err.status, err.message);
-    }
-}); */
-
 applyAuthMiddleware(router);
 
-// Logout request handler.
-router.get('/logout', async (ctx:Koa.Context) => {
-    ctx.logout();
-});
 app.use(router.routes());
 
 export default app;
