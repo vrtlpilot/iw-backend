@@ -3,14 +3,16 @@ version: '2'
 services:
   db:
     image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
+    #    environment:
+    #      - MONGODB_DATABASE=ico_world_db
+    #      - MONGODB_USER=root
+    #      - MONGODB_PASSWORD=root
     ports:
         - "27017:27017"
     volumes:
-      - "./mongo-data:/var/lib/mongodb"
+      - "/var/mongo-data:/data/db"
     restart: always
+  
   app:
       build: .
       ports:
@@ -18,4 +20,4 @@ services:
       depends_on:
         - "db"
       command: ["./wait-for-it.sh", "db:27017", "--", "npm", "start"]
-      restart: always
+      restart: on_failure:3
