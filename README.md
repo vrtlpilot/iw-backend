@@ -6,7 +6,7 @@
 
 4. cd iw-backend
 
-5. mkdir -p mongo-data
+5. sudo mkdir -p /var/mongo-data
 
 6. Создать файл .env со следующим содержимым:
 
@@ -19,5 +19,5 @@
 
 8. docker-compose up -d
 
-9. Приложение доступно по адресу http://localhost:3000/graphql
+9. Приложение доступно по адресу http://icoworld.projects.oktend.com:3000/graphql
 
