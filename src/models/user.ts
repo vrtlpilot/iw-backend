@@ -24,7 +24,7 @@ const schema = new Schema({
         required: true
     },
     pwd: {
-        type: String,  
+        type: Buffer,  
         required: true
     },
     email: {

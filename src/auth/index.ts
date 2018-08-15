@@ -1,16 +1,9 @@
 import User from '../models/user';
-import * as crypto from 'crypto';
-import { Hash } from 'crypto';
 import * as passport from 'koa-passport';
 import { Strategy as LocalStrategy } from 'passport-local'
 import {IWError} from '../util/IWError';
+import {hash, verify} from './digest';
 
-// Digest a given data parameter.
-function createDigest(data): string {
-  const hash: Hash = crypto.createHash('sha256');
-  hash.update(data);
-  return hash.digest('hex');
-}
 
 passport.serializeUser((user: any, done) => {
   done(null, user._id);
@@ -35,7 +28,7 @@ passport.use('local-signup', new LocalStrategy({
     const userData = {
       name: `${firstName} ${lastName}`,
       email,
-      pwd: createDigest(password)
+      pwd: await hash(password)
     };
     try {
       const user = await User.create(userData);
@@ -57,7 +50,7 @@ passport.use('local-login', new LocalStrategy({
       if (!user) {
         throw new IWError(401, `Cannot find user with email: ${email}`);
       }
-      const valid = createDigest(password) === user.pwd;
+      const valid = await verify(password,  user.pwd);
       if (!valid) {
         throw new IWError(401, `Incorrect password for user: ${user.name}`);
       }
@@ -84,8 +77,9 @@ export default function (router) {
   router.post('/login', async (ctx, next) => {
     await passport.authenticate('local-login', async (err, user) => {
       if (err) {
-        const { message } = err;
+        const { message, status } = err;
         ctx.body = { error: message };
+        ctx.status = Number.parseInt(status);
       } else if (!user) {
         ctx.body = { error: 'Incorrect password' };
       } else {
@@ -95,7 +89,7 @@ export default function (router) {
     })(ctx, next);
   });
 
-  router.post('/logout', async (ctx) => {
+  router.get('/logout', async (ctx) => {
     await ctx.logout();
     ctx.body = 'logout';
   });
