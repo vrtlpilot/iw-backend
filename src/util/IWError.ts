@@ -1,5 +1,5 @@
 // Specific IW error class implementation.
-class IWError implements Error {
+export class IWError implements Error {
     name: string; 
     message: string;
     status: number;

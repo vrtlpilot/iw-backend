@@ -3,6 +3,7 @@ import * as crypto from 'crypto';
 import { Hash } from 'crypto';
 import * as passport from 'koa-passport';
 import { Strategy as LocalStrategy } from 'passport-local'
+import {IWError} from '../util/IWError';
 
 // Digest a given data parameter.
 function createDigest(data): string {
