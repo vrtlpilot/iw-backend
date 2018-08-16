@@ -5,6 +5,7 @@ WORKDIR /app
 COPY ./package*.json /app/
 COPY ./wait-for-it.sh /app/
 COPY . /app
+COPY /var/icoworld/.env /app
 RUN npm install \
     && npm install -g typescript \
     && tsc -p ./tsconfig.json 
