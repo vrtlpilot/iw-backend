@@ -65,6 +65,7 @@ passport.use('local-signup', new LocalStrategy({
         };
         try {
             const user = await User.create(userData);
+            user.save();
             return done(null, user);
         } catch (err) {
             return done(err);
@@ -102,7 +103,7 @@ router.post('/signup', async (ctx, next) => {
             ctx.body = { error: message };
         } else {
             await ctx.login(user);
-            ctx.body = { user };
+            ctx.body = getUserData(user);
         }
     })(ctx, next);
 });
@@ -117,7 +118,7 @@ router.post('/login', async (ctx, next) => {
             ctx.body = { error: 'Incorrect password' };
         } else {
             await ctx.login(user);
-            ctx.body = user;
+            ctx.body = getUserData(user);
         }
     })(ctx, next);
 });
@@ -128,5 +129,24 @@ router.get('/logout', async (ctx) => {
 });
 
 app.use(router.routes());
+
+function getUserData(user) {
+    return {
+        name: user.name, 
+        email: user.email,
+        phone: user.phone,
+        job: user.job,
+        photo: user.photo,
+        avatar: user.avatar,
+        location: user.location,
+        clinks: user.clinks,
+        pools: user.pools,
+        wallets: user.wallets,
+        follows: user.follows,
+        subscribers: user.subscribers,
+        notifications: user.notifications,
+        language: user.language
+    }
+}
 
 export default app;
