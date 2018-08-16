@@ -1,6 +1,6 @@
+/mongo-data
 /node_modules
 /config
 /build
-.env
 *~
 .bak
