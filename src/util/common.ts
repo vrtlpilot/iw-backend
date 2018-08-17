@@ -19,3 +19,14 @@ export function truncated(val:number, decimals:number):number {
     const npc = Math.pow(10, decimals); 
     return ~~(val * npc)/npc;
 }
+
+// Get a pseudo random number in a given range.
+export function getRandomInRange(min:number, max:number):number {
+    return ~~(Math.random() * (max - min + 1)) + min;
+}
+
+// Check if a given argument is defined and not null.
+export function notNull(arg, name:string) {
+    if (arg == undefined || null)
+        throw new Error(`Argument <${name}> is NULL or UNDEINED!`);
+}
