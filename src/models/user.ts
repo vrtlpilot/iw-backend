@@ -40,8 +40,35 @@ const schema = new Schema({
     job: Employment,
     photo: Image,
     avatar: Image,
-    location: String,
-    clinks: [String],
+    country: String,
+    city: String,
+    education: String,
+    clinks: {
+        fb: {
+            type: String,
+            default: ""
+        },
+        linkedin: {
+            type: String,
+            default: ""
+        },
+        insta: {
+            type: String,
+            default: ""
+        },
+        twitter: {
+            type: String,
+            default: ""
+        },
+        telegram: {
+            type: String,
+            default: ""
+        },
+        wechat: {
+            type: String,
+            default: ""
+        }
+    },
     // deals: [{
     //     type: ObjectId,
     //     ref: 'Deal'
