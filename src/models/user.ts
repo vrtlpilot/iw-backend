@@ -101,4 +101,24 @@ schema.set('toJSON', {
     virtuals: true
 });
 
+// Compose user object properties for UI.
+export function getUserData(user) {
+    return {
+        name: user.name, 
+        email: user.email,
+        phone: user.phone,
+        job: user.job,
+        photo: user.photo,
+        avatar: user.avatar,
+        location: user.location,
+        clinks: user.clinks,
+        pools: user.pools,
+        wallets: user.wallets,
+        follows: user.follows,
+        subscribers: user.subscribers,
+        notifications: user.notifications,
+        language: user.language
+    }
+}
+
 export default mongoose.model('User', schema);

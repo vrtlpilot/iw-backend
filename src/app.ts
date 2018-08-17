@@ -7,7 +7,7 @@ import * as serve from 'koa-static';
 import { Strategy as LocalStrategy } from 'passport-local'
 import { IWError } from './util/IWError';
 import { hash, verify } from './auth/digest';
-import User from './models/user';
+import User, {getUserData} from './models/user';
 
 // Initialize of Koa application.
 const app = new Koa();
@@ -129,24 +129,5 @@ router.get('/logout', async (ctx) => {
 });
 
 app.use(router.routes());
-
-function getUserData(user) {
-    return {
-        name: user.name, 
-        email: user.email,
-        phone: user.phone,
-        job: user.job,
-        photo: user.photo,
-        avatar: user.avatar,
-        location: user.location,
-        clinks: user.clinks,
-        pools: user.pools,
-        wallets: user.wallets,
-        follows: user.follows,
-        subscribers: user.subscribers,
-        notifications: user.notifications,
-        language: user.language
-    }
-}
 
 export default app;
