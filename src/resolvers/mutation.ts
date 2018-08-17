@@ -12,12 +12,10 @@ const MutationImpl = {
       const user = await User.findByIdAndRemove({where: args.id});
       return user;
     },
-    updateUser: async (parent, args) => {
-      const user = await User.findByIdAndUpdate(args.id, 
-        {
-          $set: args,
-        }, { new: true });
-      return user;
+    updateUser: async (parent, { input }) => {
+      const { id, ...userData } = input;
+      const updatedUser = await User.findByIdAndUpdate(id, userData);
+      return updatedUser;
     },
     upload: async (parent, { file }) => {
         const { stream, filename, mimetype, encoding } = await file;

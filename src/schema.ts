@@ -15,7 +15,7 @@ const Query = gql(`
 const Mutation = gql(`
     type Mutation {
         createUser(name: String!, pwd: String!, email: String!): User!
-        updateUser(id: ID!, name: String, company: String, location: String): User!
+        updateUser(input: UserInput!): User!
         removeUser(id: ID!): User!
 
         upload(file: Upload!): File!
@@ -32,23 +32,56 @@ const Types = gql(`
 
     type Employment {
         company: String!
-        postition: String!
+        position: String!
+    }
+
+    type Clinks {
+        fb: String
+        linkedin: String
+        insta: String
+        twitter: String
+        telegram: String
+        wechat: String
     }
 
     type User {
         id: ID!
         name: String!
         email: String!
-        pwd: String!
         phone: String
         job: Employment
-        photo: File
-        avatar: File
-        location: String
-        clinks: [String]
+        country: String
+        city: String
+        education: String
+        clinks: Clinks
+    }
+
+    input EmploymentInput {
+        company: String!
+        position: String!
+    }
+
+    input CLinksInput {
+        fb: String
+        linkedin: String
+        insta: String
+        twitter: String
+        telegram: String
+        wechat: String
+    }
+
+    input UserInput {
+        id: ID!
+        name: String        
+        email: String
+        education: String
+        phone: String
+        country: String
+        city: String
+        job: EmploymentInput
+        clinks: CLinksInput
     }
 `);
-
 
 // Construct a config which contains typedefs and resolvers.
 const config: Config = {
