@@ -4,6 +4,7 @@ import * as passport from 'koa-passport';
 import * as Router from 'koa-router';
 import * as bodyParser from 'koa-bodyparser';
 import * as serve from 'koa-static';
+import * as cors from 'koa2-cors';
 import { Strategy as LocalStrategy } from 'passport-local'
 import { IWError } from './util/IWError';
 import { hash, verify } from './auth/digest';
@@ -15,6 +16,15 @@ const router = new Router();
 
 app.use(serve('public'));
 app.use(bodyParser());
+
+// cors
+app.use(cors({
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}));
 
 app.keys = [process.env.SESSION_KEYS || ' keys'];
 const CONFIG = {
@@ -31,11 +41,11 @@ app.use(session(CONFIG, app));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(async (ctx, next) => {
+/* app.use(async (ctx, next) => {
     console.log('session')
     console.log(ctx.session)
     await next();
-})
+}) */
 
 // Passport setup.
 passport.serializeUser((user: any, done) => {
