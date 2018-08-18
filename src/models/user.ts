@@ -104,6 +104,7 @@ schema.set('toJSON', {
 // Compose user object properties for UI.
 export function getUserData(user) {
     return {
+        id: user._id,
         name: user.name, 
         email: user.email,
         phone: user.phone,
