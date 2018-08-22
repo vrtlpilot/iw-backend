@@ -18,7 +18,7 @@ export async function hash(password:string):Promise<Buffer> {
     notNull(password, 'Password');
     // generate a salt.
     const salt = await createSalt(config.saltSize, config.hashSize);
-    const hash = await crypto.pbkdf2Sync(password, salt, config.iterations, config.hashSize, config.alg) ;
+    const hash = await crypto.pbkdf2Sync(password.normalize('NFKC'), salt, config.iterations, config.hashSize, config.alg) ;
     const buf = new Buffer(hash.length + salt.length);
     salt.copy(buf, 0);
     hash.copy(buf, salt.length);
@@ -39,7 +39,7 @@ export async function verify(password:string, source:Buffer):Promise<boolean> {
     const hash = source.toString('binary', config.saltSize);
 
     // verify the salt and hash against the password
-    const verify = await crypto.pbkdf2Sync(password, salt, config.iterations, config.hashSize, config.alg); 
+    const verify = await crypto.pbkdf2Sync(password.normalize('NFKC'), salt, config.iterations, config.hashSize, config.alg); 
     return verify.toString('binary') === hash;
 }
 
