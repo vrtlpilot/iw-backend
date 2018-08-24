@@ -1,0 +1,42 @@
+{
+    "contracts": {
+        "TestContract": {
+            "src": "pragma solidity ^0.4.24;  contract TestContract {address public projectAddress; uint public summary; constructor(address _projectAddress, uint _summary) public {projectAddress = _projectAddress; summary = _summary; }}",
+            "bin":"608060405234801561001057600080fd5b506040516040806101b68339810180604052810190808051906020019092919080519060200190929190505050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550806001819055505050610121806100956000396000f3006080604052600436106049576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680633cf96af114604e578063b16a867c1460a2575b600080fd5b348015605957600080fd5b50606060ca565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801560ad57600080fd5b5060b460ef565b6040518082815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600154815600a165627a7a723058203bfdca1f2b8fcf837f641f3f7e77f99c75e099b9195bc0e9b52e5016d99132db0029",
+            "abi": [{
+                "constant": true,
+                "inputs": [],
+                "name": "projectAddress",
+                "outputs": [{
+                    "name": "",
+                    "type": "address"
+                }],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }, {
+                "constant": true,
+                "inputs": [],
+                "name": "summary",
+                "outputs": [{
+                    "name": "",
+                    "type": "uint256"
+                }],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }, {
+                "inputs": [{
+                    "name": "_projectAddress",
+                    "type": "address"
+                }, {
+                    "name": "_summary",
+                    "type": "uint256"
+                }],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            }]
+        }
+    }
+}

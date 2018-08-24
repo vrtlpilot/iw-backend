@@ -15,6 +15,7 @@
   "author": "dschipunov",
   "license": "ISC",
   "dependencies": {
+    "@types/web3": "^1.0.3",
     "apollo-server": "^2.0.0",
     "apollo-server-koa": "^2.0.0",
     "dotenv": "^6.0.0",
@@ -28,7 +29,8 @@
     "koa2-cors": "^2.0.6",
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.5",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "web3": "github:ethereum/web3.js"
   },
   "devDependencies": {
     "@types/koa": "^2.0.46",

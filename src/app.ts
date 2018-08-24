@@ -9,6 +9,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 import { IWError } from './util/IWError';
 import { hash, verify } from './auth/digest';
 import User, {getUserData} from './models/user';
+import {deployContract} from './eth/contracts';
 
 // Initialize of Koa application.
 const app = new Koa();
@@ -25,8 +26,8 @@ app.use(cors({
     allowMethods: ['GET', 'POST', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }));
-
-app.keys = [process.env.SESSION_KEYS || ' keys'];
+// Coockie sign keys.
+app.keys = [process.env.SESSION_KEYS || '97Jix8Mcc4G+CD02iunYB6sZTjXxQfks'];
 const CONFIG = {
     key: 'sess:key',  /** (string) cookie key */
     maxAge: 86400000, /** (number) maxAge in ms (default is 1 days) */
@@ -105,7 +106,7 @@ passport.use('local-login', new LocalStrategy({
     })
 );
 
-// Routes setup.
+// Signup request handler.
 router.post('/signup', async (ctx, next) => {
     await passport.authenticate('local-signup', async (err, user) => {
         if (err) {
@@ -118,6 +119,7 @@ router.post('/signup', async (ctx, next) => {
     })(ctx, next);
 });
 
+// Login request handler.
 router.post('/login', async (ctx, next) => {
     await passport.authenticate('local-login', async (err, user) => {
         if (err) {
@@ -133,9 +135,24 @@ router.post('/login', async (ctx, next) => {
     })(ctx, next);
 });
 
+// Logout request handler.
 router.get('/logout', async (ctx) => {
     await ctx.logout();
     ctx.body = 'logout';
+});
+
+// Contract deploy request handler.
+router.post('/deploy', async (ctx:Koa.Context) => {
+    try {
+        if(ctx.session == undefined || null)
+            throw new IWError(401, "Access denied");
+        const { name, args } = ctx.request.body as any;
+        const data = await deployContract(name, args);
+        ctx.body = { data };
+    } catch(err) {
+        // should be IWError type error.
+        ctx.throw(err.status, err.message);
+    }
 });
 
 app.use(router.routes());
