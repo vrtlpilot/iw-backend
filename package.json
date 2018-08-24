@@ -15,7 +15,6 @@
   "author": "dschipunov",
   "license": "ISC",
   "dependencies": {
-    "@types/web3": "^1.0.3",
     "apollo-server": "^2.0.0",
     "apollo-server-koa": "^2.0.0",
     "dotenv": "^6.0.0",
