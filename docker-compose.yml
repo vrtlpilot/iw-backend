@@ -1,12 +1,7 @@
-version: '2'
-
+version: '2' 
 services:
   db:
     image: mongo
-    #    environment:
-    #      - MONGODB_DATABASE=ico_world_db
-    #      - MONGODB_USER=root
-    #      - MONGODB_PASSWORD=root
     ports:
         - "27017:27017"
     volumes:
