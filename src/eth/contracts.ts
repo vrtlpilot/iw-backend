@@ -5,7 +5,7 @@ import { notNull, sleep } from '../util/common';
 
 
 // ETH node URL.
-const ethUrl = process.env.ETH_NODE_URL || "http://localhost:8545";
+const ethUrl = 'http://icoworld.projects.oktend.com:8545' // process.env.ETH_NODE_URL || "http://localhost:8545";
 
 // Create a web3 connection
 const web3 = new Web3();
