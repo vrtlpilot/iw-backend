@@ -56,6 +56,7 @@ export function getPoolData(pool) {
 
 export function getPoolDataMini(pool) {
   return {
+    poolId: pool._id,
     poolName: pool.poolName,
     holderOfPool: pool.holderOfPool,
     projectName: pool.name,

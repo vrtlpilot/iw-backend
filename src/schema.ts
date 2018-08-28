@@ -7,7 +7,7 @@ import { gql, Config } from "apollo-server";
 const Query = gql(`
     type Query {
         getPool(poolId: String!): Pool
-        searchPool(poolName: String!): [PoolMini!]!
+        searchPool(poolName: String!): [PoolInfo!]!
     }
 `);
 
@@ -111,7 +111,8 @@ const Types = gql(`
         comissionOfIcoWorld: Float!
     }
 
-    type PoolMini {
+    type PoolInfo {
+        poolId: String!
         poolName: String!
         holderOfPool: ID!
         projectName: String!
