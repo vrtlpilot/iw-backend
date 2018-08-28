@@ -6,19 +6,16 @@ import { gql, Config } from "apollo-server";
 // Query definition.
 const Query = gql(`
     type Query {
-        user(id: ID!): User!
-        users(name: String, email: String): [User!]
+        getPool(poolId: String!): Pool
+        searchPool(poolName: String!): [PoolMini!]!
     }
 `);
 
 // Mutation definition.
 const Mutation = gql(`
     type Mutation {
-        createUser(name: String!, pwd: String!, email: String!): User!
         updateUser(input: UserInput!): User!
-        removeUser(id: ID!): User!
-
-        upload(file: Upload!): File!
+        createPool(input: PoolInput!): String!
     }
 `);
 
@@ -81,6 +78,46 @@ const Types = gql(`
         job: EmploymentInput
         clinks: CLinksInput
     }
+
+    input PoolInput {
+        poolName: String!
+        holderOfPool: ID!
+        projectName: String!
+        projectLink: String!
+        projectAdress: String!
+        poolSoftCap: Float!
+        poolHardCap: Float!
+        minDeposit: Float!
+        maxDeposit: Float!
+        endDate: String!
+        comissionOfHolder: Float!
+        addressForComissionPayment: String!
+        comissionOfIcoWorld: Float!
+    }
+
+    type Pool {
+        poolId: String!
+        poolName: String!
+        verifyContractLink: String!
+        holderOfPool: ID!
+        projectName: String!
+        projectAdress: String!
+        poolSoftCap: Float!
+        poolHardCap: Float!
+        minDeposit: Float!
+        maxDeposit: Float!
+        endDate: String!
+        comissionOfHolder: Float!
+        comissionOfIcoWorld: Float!
+    }
+
+    type PoolMini {
+        poolName: String!
+        holderOfPool: ID!
+        projectName: String!
+        endDate: String!
+    }
+
 `);
 
 // Construct a config which contains typedefs and resolvers.

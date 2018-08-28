@@ -10,18 +10,27 @@ const Member = new Schema({
         type: ObjectId,
         ref: 'User'
     },
-    summ: Number 
+    summ: Number
 });
 
 // Pool schema definition.
 const schema = new Schema({
+    holderOfPool: {
+        type: ObjectId,
+        ref: 'User'
+    },
     name: String,
-    description: String,
+    poolName: String,
+    verifyContractLink: String,
+    /* description: String, */
+    projectLink: String,
     wallet: Wallet,
     sum_min: Number,
     sum_max: Number,
     sum_mbr_min:Number,
     sum_mbr_max:Number,
+    endDate: Date,
+    addressForComissionPayment: String,
     comission: Number,
     lead_comission: Number,
     members: [Member]
