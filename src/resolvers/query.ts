@@ -1,5 +1,5 @@
 import User from "../models/user";
-import Pool from "../models/pool";
+import Pool from "../models/Pool";
 import { getPoolData, getPoolDataMini } from './helpers';
 
 // Query methods implementation.
