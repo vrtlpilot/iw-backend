@@ -1,22 +1,22 @@
 import fs = require('fs');
 import Web3 = require('web3');
-import coder = require('web3/lib/solidity/coder');
 import { notNull, sleep } from '../util/common';
 
-
 // ETH node URL.
-const ethUrl = 'http://icoworld.projects.oktend.com:8545' // process.env.ETH_NODE_URL || "http://localhost:8545";
+const ethUrl = process.env.ETH_NODE_URL || 'http://icoworld.projects.oktend.com:8545';
 
 // Create a web3 connection
 const web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider(ethUrl));
 
 // Defintion of 'from' address.
-const fromAddr = process.env.ETH_FROM_ACCOUNT || web3.eth.coinbase;
-// Default price
-const priceGas = process.env.ETH_DEPLOY_PRICE || 100000;
+const accountAddr = process.env.ETH_FROM_ACCOUNT || web3.eth.coinbase;
+// Default price.
+const priceGas = process.env.ETH_DEPLOY_PRICE || 300000;
 // Default wait for block timeout.
-const blocksTimeout = process.env.ETH_WAIT_TIMEOUT || 1000;
+const blocksTimeout = process.env.ETH_WAIT_TIMEOUT || 30000;
+// Private key or password.
+const privateKey = process.env.ETH_PRIVATE_KEY || "pass";
 
 // Read the compiled contract code
 const source = fs.readFileSync("contracts.json", 'utf8');
@@ -72,12 +72,14 @@ async function waitForBlocks(contract, timeout) {
  */
 export async function deployContract(name: string, ...args) {
     notNull(name, 'Contract name');
+    web3.personal.unlockAccount(accountAddr, privateKey, 60000);
+    console.log("Unlocked the account...");
     // Create contract instance.
     const { factory, code, source } = getContract(name);
 
-    console.log("Deploying the contract");
+    console.log("Deploying the contract...");
     // Deploy the contract.
-    const contract = factory.new(args, {from: fromAddr, gas: priceGas, data: code});
+    const contract = factory.new(args, {from: accountAddr, gas: priceGas, data: code});
     // Transaction has entered to memory pool
     console.log(`Contract is being deployed in transaction at ${ethUrl}, hash: ${contract.transactionHash}`);
     const encAbi = factory.new.getData(args, {data: code});
