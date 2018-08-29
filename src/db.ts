@@ -18,11 +18,17 @@ const dbOptions = {
 };
 
 mongoose.set('debug', process.env.NODE_ENV === 'development');
+const db = mongoose.connection;
+
+export function close() {
+	db.close((err) => {
+		console.log(`Error closing DB connection: ${err}.`)
+	});
+}
 
 export default () => {
-	const db = mongoose.connection
-		db.on('error', (error) => {throw new Error(`Failed to connect to DB: ${error}`)})
-			.on('close', () => console.log('DB connection closed.'))
-			.once('open', () => console.log('Established connection to DB.'));
+	db.on('error', (error) => { throw new Error(`Failed to connect to DB: ${error}`) })
+		.on('close', () => console.log('DB connection closed.'))
+		.once('open', () => console.log('Established connection to DB.'));
 	return mongoose.connect(DB_URI, dbOptions);
 };

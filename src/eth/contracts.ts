@@ -16,7 +16,7 @@ const priceGas = process.env.ETH_DEPLOY_PRICE || 300000;
 // Default wait for block timeout.
 const blocksTimeout = process.env.ETH_WAIT_TIMEOUT || 30000;
 // Private key or password.
-const privateKey = process.env.ETH_PRIVATE_KEY || "pass";
+const privateKey = process.env.ETH_PRIVATE_KEY || "";
 
 // Read the compiled contract code
 const source = fs.readFileSync("contracts.json", 'utf8');
