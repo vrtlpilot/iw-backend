@@ -155,6 +155,10 @@ router.post('/deploy', async (ctx:Koa.Context) => {
     }
 });
 
+router.get('/', async (ctx: Koa.Context) => {
+    ctx.body = 'icoWorld'
+})
+
 app.use(router.routes());
 
 export default app;
