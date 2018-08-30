@@ -53,7 +53,6 @@ const MutationImpl = {
   editPost: async (_, { input }) => {
     const { postId, ...postData } = input;
     const updatedPost = await Post.findByIdAndUpdate(postId, postData, { new: true });
-    console.log(updatedPost);
     return getPostData(updatedPost);
   },
 
