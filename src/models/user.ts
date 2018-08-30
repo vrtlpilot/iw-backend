@@ -101,7 +101,7 @@ schema.set('toJSON', {
     virtuals: true
 });
 
-// Compose user object properties for UI.
+// Compose user object properties for UI
 export function getUserData(user) {
     return {
         id: user._id,

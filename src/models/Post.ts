@@ -1,31 +1,42 @@
 import mongoose = require('mongoose');
-import {Image} from './Image';
+import { Image } from './Image';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 // Post schema definition.
 const schema = new Schema({
-    user_id: {
+    userId: {
         type: ObjectId,
         ref: 'User',
         required: true
     },
-    title: {
+    /* title: {
         type: String,
         required: true
     },
     category: {
         type: String,
         required: true
-    },
-    date:{ 
+    }, */
+    date: {
         type: Date,
         default: Date.now
     },
     content: String,
     tags: [String],
-    images: [Image]
+    /* images: [Image] */
 });
+
+// Compose post object properties for UI
+export function getPostData(post) {
+    return {
+        postId: post._id,
+        userId: post.userId,
+        date: post.date,
+        content: post.content,
+        tags: post.tags
+    }
+}
 
 export default mongoose.model('Post', schema);   

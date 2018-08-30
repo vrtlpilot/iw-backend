@@ -1,6 +1,7 @@
 import User from "../models/user";
 import Pool from "../models/Pool";
-import { getPoolData, getPoolDataMini } from '../models/Pool';
+import { getPoolData, getPoolDataForSearchResult } from '../models/Pool';
+import Post, { getPostData } from "../models/Post";
 
 // Query methods implementation.
 const QueryImpl = {
@@ -16,15 +17,20 @@ const QueryImpl = {
     });
   }, */
 
-  getPool: async (parent, { poolId }) => {
+  getPool: async (_, { poolId }) => {
     const pool = await Pool.findById(poolId);
     return pool ? getPoolData(pool) : null;
   },
 
-  searchPool: async (parent, { poolName }) => {
+  searchPool: async (_, { poolName }) => {
     const pools = await Pool.find({ poolName: new RegExp(`.*${poolName}.*`, 'i') });
-    return pools.map((pool => getPoolDataMini(pool)));
-  }
+    return pools.map((pool => getPoolDataForSearchResult(pool)));
+  },
+
+  getPost: async (_, { postId }) => {
+    const post = await Post.findById(postId);
+    return post ? getPostData(post) : null;
+  },
 }
 
 export default QueryImpl;
