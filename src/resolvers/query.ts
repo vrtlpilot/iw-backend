@@ -1,6 +1,6 @@
 import User from "../models/user";
 import Pool from "../models/Pool";
-import { getPoolData, getPoolDataMini } from './helpers';
+import { getPoolData, getPoolDataMini } from '../models/Pool';
 
 // Query methods implementation.
 const QueryImpl = {

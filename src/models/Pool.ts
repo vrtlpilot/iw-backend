@@ -15,7 +15,7 @@ const Member = new Schema({
 
 // Pool schema definition.
 const schema = new Schema({
-    holderOfPool: {
+    owner: {
         type: ObjectId,
         ref: 'User'
     },
@@ -27,13 +27,79 @@ const schema = new Schema({
     wallet: Wallet,
     sum_min: Number,
     sum_max: Number,
-    sum_mbr_min:Number,
-    sum_mbr_max:Number,
+    sum_mbr_min: Number,
+    sum_mbr_max: Number,
     endDate: Date,
     addressForComissionPayment: String,
     comission: Number,
     lead_comission: Number,
     members: [Member]
 }, { timestamps: true });
+
+export function formatPoolData(input) {
+    const {
+        poolName,
+        verifyContractLink,
+        owner,
+        projectName,
+        projectLink,
+        projectAdress,
+        poolSoftCap,
+        poolHardCap,
+        minDeposit,
+        maxDeposit,
+        endDate,
+        comissionOfHolder,
+        addressForComissionPayment,
+        comissionOfIcoWorld
+    } = input;
+
+    return {
+        poolName,
+        verifyContractLink,
+        owner,
+        name: projectName,
+        projectLink,
+        wallet: {
+            address: projectAdress
+        },
+        sum_min: poolSoftCap,
+        sum_max: poolHardCap,
+        sum_mbr_min: minDeposit,
+        sum_mbr_max: maxDeposit,
+        endDate: endDate,
+        lead_comission: comissionOfHolder,
+        addressForComissionPayment,
+        comission: comissionOfIcoWorld
+    }
+}
+
+export function getPoolData(pool) {
+    return {
+        poolId: pool._id,
+        poolName: pool.poolName,
+        verifyContractLink: pool.verifyContractLink,
+        owner: pool.owner,
+        projectName: pool.name,
+        projectAdress: pool.wallet.address,
+        poolSoftCap: pool.sum_min,
+        poolHardCap: pool.sum_max,
+        minDeposit: pool.sum_mbr_min,
+        maxDeposit: pool.sum_mbr_max,
+        endDate: pool.endDate,
+        comissionOfHolder: pool.lead_comission,
+        comissionOfIcoWorld: pool.comission,
+    }
+}
+
+export function getPoolDataMini(pool) {
+    return {
+        poolId: pool._id,
+        poolName: pool.poolName,
+        owner: pool.owner,
+        projectName: pool.name,
+        endDate: pool.endDate
+    }
+}
 
 export default mongoose.model('Pool', schema);   

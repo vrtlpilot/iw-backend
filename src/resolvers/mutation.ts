@@ -1,6 +1,9 @@
 import User from "../models/user";
 import Pool from "../models/Pool";
-import { formatPoolData, getPoolData } from './helpers';
+import { formatPoolData, getPoolData } from '../models/Pool';
+
+// Verify contract URL.
+const verifyContractLink = process.env.ETH_VERIFY_CONTRACT_URL || 'https://etherscan.io/verifyContract';
 
 // Mutation methods implementation.
 const MutationImpl = {
@@ -36,7 +39,6 @@ const MutationImpl = {
     // deploy contract
     // save contract's information in db
     const poolData = formatPoolData(input);
-    const verifyContractLink = 'https://etherscan.io/verifyContract';
     const pool = await Pool.create({ ...poolData, verifyContractLink });
     // temporarily return pool object
     return pool._id.toString();
