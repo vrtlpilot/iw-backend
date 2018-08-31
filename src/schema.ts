@@ -6,8 +6,9 @@ import { gql, Config } from "apollo-server";
 // Query definition.
 const Query = gql(`
     type Query {
-        getPool(poolId: String!): Pool
+        getPool(poolId: ID!): Pool
         searchPool(poolName: String!): [PoolInfo!]!
+        getPost(postId: ID!): Post
     }
 `);
 
@@ -16,6 +17,9 @@ const Mutation = gql(`
     type Mutation {
         updateUser(input: UserInput!): User!
         createPool(input: PoolInput!): String!
+        createPost(input: PostInput!): ID!
+        editPost(input: PostEditInput!): Post!
+        deletePost(postId: ID!): ID!
     }
 `);
 
@@ -81,7 +85,7 @@ const Types = gql(`
 
     input PoolInput {
         poolName: String!
-        holderOfPool: ID!
+        owner: ID!
         projectName: String!
         projectLink: String!
         projectAdress: String!
@@ -99,7 +103,7 @@ const Types = gql(`
         poolId: String!
         poolName: String!
         verifyContractLink: String!
-        holderOfPool: ID!
+        owner: ID!
         projectName: String!
         projectAdress: String!
         poolSoftCap: Float!
@@ -114,11 +118,30 @@ const Types = gql(`
     type PoolInfo {
         poolId: String!
         poolName: String!
-        holderOfPool: ID!
+        owner: ID!
         projectName: String!
         endDate: String!
     }
 
+    input PostInput {
+        userId: ID!
+        content: String!
+        tags: [String!]
+    }
+    
+    type Post {
+        postId: ID!
+        userId: ID!
+        date: String!
+        content: String!
+        tags: [String!]!
+    }
+    
+    input PostEditInput {
+        postId: ID!,
+        content: String!
+        tags: [String!]
+    }
 `);
 
 // Construct a config which contains typedefs and resolvers.

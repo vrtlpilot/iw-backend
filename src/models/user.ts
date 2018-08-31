@@ -115,7 +115,7 @@ export function setUserRole(user) {
     user.role = Roles.User;
 }
 
-// Compose user object properties for UI.
+// Compose user object properties for UI
 export function getUserData(user) {
     return {
         id: user._id,

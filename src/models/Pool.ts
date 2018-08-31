@@ -36,6 +36,7 @@ const schema = new Schema({
     members: [Member]
 }, { timestamps: true });
 
+// transform object's properties for db
 export function formatPoolData(input) {
     const {
         poolName,
@@ -74,6 +75,7 @@ export function formatPoolData(input) {
     }
 }
 
+// Compose pool object properties (that needed for result of pool's search) for UI
 export function getPoolData(pool) {
     return {
         poolId: pool._id,
@@ -92,7 +94,7 @@ export function getPoolData(pool) {
     }
 }
 
-export function getPoolDataMini(pool) {
+export function getPoolDataForSearchResult(pool) {
     return {
         poolId: pool._id,
         poolName: pool.poolName,
@@ -102,4 +104,4 @@ export function getPoolDataMini(pool) {
     }
 }
 
-export default mongoose.model('Pool', schema);   
+export default mongoose.model('Pool', schema); 

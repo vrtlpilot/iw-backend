@@ -1,5 +1,6 @@
 import User from "../models/user";
 import Pool from "../models/Pool";
+import Post, { getPostData } from "../models/Post";
 import { formatPoolData, getPoolData } from '../models/Pool';
 
 // Verify contract URL.
@@ -29,20 +30,36 @@ const MutationImpl = {
       return { filename, mimetype, encoding };
   }, */
 
-  updateUser: async (parent, { input }) => {
+  updateUser: async (_, { input }) => {
     const { id, ...userData } = input;
-    const updatedUser = await User.findByIdAndUpdate(id, userData);
+    const updatedUser = await User.findByIdAndUpdate(id, userData, { new: true });
     return updatedUser;
   },
 
-  createPool: async (parent, { input }) => {
+  createPool: async (_, { input }) => {
     // deploy contract
     // save contract's information in db
     const poolData = formatPoolData(input);
     const pool = await Pool.create({ ...poolData, verifyContractLink });
     // temporarily return pool object
     return pool._id.toString();
-  }  
+  },
+
+  createPost: async (_, { input: postData }) => {
+    const post = await Post.create(postData);
+    return post._id;
+  },
+
+  editPost: async (_, { input }) => {
+    const { postId, ...postData } = input;
+    const updatedPost = await Post.findByIdAndUpdate(postId, postData, { new: true });
+    return getPostData(updatedPost);
+ },
+
+  deletePost: async (_, { postId }) => {
+    const deletedPost = await Post.findByIdAndRemove(postId);
+    return deletedPost._id;
+  }
 }
 
 export default MutationImpl;
