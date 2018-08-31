@@ -1,6 +1,7 @@
 import mongoose = require('mongoose');
 import {Image} from './Image';
 import Wallet from './Wallet';
+import {Roles, getPermission} from '../auth/permissions';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
@@ -35,6 +36,11 @@ const schema = new Schema({
             unique: true,
             sparse: true
         }
+    },
+    role: {
+        type: String,
+        enum: [Roles.Guest, Roles.User, Roles.Admin],
+        default: Roles.Guest
     },
     phone: String,
     job: Employment,
@@ -101,12 +107,22 @@ schema.set('toJSON', {
     virtuals: true
 });
 
+/**
+ * Assign 'User' role to a given user.
+ * @param user 
+ */
+export function setUserRole(user) {
+    user.role = Roles.User;
+}
+
 // Compose user object properties for UI.
 export function getUserData(user) {
     return {
         id: user._id,
         name: user.name, 
         email: user.email,
+        role: user.role,
+        permissions: getPermission(user.role),
         phone: user.phone,
         job: user.job,
         photo: user.photo,

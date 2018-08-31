@@ -8,7 +8,7 @@ import * as cors from 'koa2-cors';
 import { Strategy as LocalStrategy } from 'passport-local'
 import { IWError } from './util/IWError';
 import { hash, verify } from './auth/digest';
-import User, {getUserData} from './models/user';
+import User, {setUserRole, getUserData} from './models/user';
 import {deployContract} from './eth/contracts';
 
 // Initialize of Koa application.
@@ -114,6 +114,7 @@ router.post('/signup', async (ctx, next) => {
             ctx.body = { error: message };
         } else {
             await ctx.login(user);
+            setUserRole(user);
             ctx.body = getUserData(user);
         }
     })(ctx, next);
