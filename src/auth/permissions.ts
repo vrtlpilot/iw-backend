@@ -11,42 +11,6 @@ const Permissions = {
     X: this.M | this.W  // full access
 }
 
-// // Guest role permissions.
-// const GuestPerms = {
-//     'Registration': Permissions.R | Permissions.W,
-//     'Posts': Permissions.R,
-//     'Posts.Comments': Permissions.R,
-//     'News': Permissions.R,
-//     'News.Comments': Permissions.R,
-//     'Pools': Permissions.R,
-// }
-
-// // User role permissions.
-// const UserPerms = {
-//     'Registration': Permissions.R | Permissions.E,
-//     'Posts': Permissions.R | Permissions.W | Permissions.E,
-//     'Posts.Comments': Permissions.R | Permissions.W | Permissions.E,
-//     'News': Permissions.R,
-//     'News.Comments': Permissions.R | Permissions.W | Permissions.E,
-//     'Pools': Permissions.R | Permissions.W,
-// }
-
-// // Admin role permissions.
-// const AdminPerms = {
-//     'Registration': Permissions.X,
-//     'Posts': Permissions.M,
-//     'Posts.Comments': Permissions.M,
-//     'News': Permissions.X,
-//     'News.Comments': Permissions.M,
-//     'Pools': Permissions.M,
-// }
-
-// // Permissions schema map.
-// const schema = new Map<string, any>();
-// schema.set(Roles.Guest, GuestPerms);
-// schema.set(Roles.User, UserPerms);
-// schema.set(Roles.Admin, AdminPerms);
-
 // Roles permissions schema
 const Schema = {
     'Guest': {
