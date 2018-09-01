@@ -10,6 +10,7 @@ const Query = gql(`
         searchPool(poolName: String!): [PoolInfo!]!
         getPost(postId: ID!): Post
         getInvestors(input: InvestorsFilterParamsInput!): [Investor!]!
+        getContracts(input: ContractsParamsInput!): [Contract]!
     }
 `);
 
@@ -21,6 +22,8 @@ const Mutation = gql(`
         createPost(input: PostInput!): ID!
         editPost(input: PostEditInput!): Post!
         deletePost(postId: ID!): ID!
+        createContract(input: ContractInput!): ID!
+        deleteContract(id: ID!): ID!
     }
 `);
 
@@ -170,6 +173,28 @@ const Types = gql(`
         name: String!
         login: String
         countOfFollowers: Int!
+    }
+
+    type Contract {
+        id: ID!
+        name: String!
+        description: String
+        src: String!
+        abi: String!
+        bin: String!
+    }
+
+    input ContractInput {
+        name: String!
+        description: String
+        src: String!
+        abi: String!
+        bin: String!
+    }
+
+    input ContractsParamsInput {
+        name: String
+        description: String
     }
 `);
 

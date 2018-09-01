@@ -2,6 +2,7 @@ import User from "../models/user";
 import Pool, { generatePoolName } from "../models/Pool";
 import Post, { getPostData } from "../models/Post";
 import { formatPoolData, getPoolData } from '../models/Pool';
+import Contract from "../models/Contract";
 
 // Verify contract URL.
 const verifyContractLink = process.env.ETH_VERIFY_CONTRACT_URL || 'https://etherscan.io/verifyContract';
@@ -18,7 +19,7 @@ const MutationImpl = {
     const user = await User.findByIdAndRemove({where: args.id});
     return user;
   }, */
-  
+
   /* upload: async (parent, { file }) => {
       const { stream, filename, mimetype, encoding } = await file;
 
@@ -55,12 +56,22 @@ const MutationImpl = {
     const { postId, ...postData } = input;
     const updatedPost = await Post.findByIdAndUpdate(postId, postData, { new: true });
     return getPostData(updatedPost);
- },
+  },
 
   deletePost: async (_, { postId }) => {
     const deletedPost = await Post.findByIdAndRemove(postId);
     return deletedPost._id;
-  }
+  },
+
+  createContract: async (_, { input: input }) => {
+    const contract = await Contract.create(input);
+    return contract._id;
+  },
+  
+  deleteContract: async (_, { Id }) => {
+    const contract = await Contract.findByIdAndRemove(Id);
+    return contract._id;
+  },
 }
 
 export default MutationImpl;

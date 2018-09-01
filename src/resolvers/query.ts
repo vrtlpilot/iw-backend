@@ -2,6 +2,7 @@ import User from "../models/user";
 import Pool from "../models/Pool";
 import { getPoolData, getPoolDataForSearchResult } from '../models/Pool';
 import Post, { getPostData } from "../models/Post";
+import Contract from "../models/Contract";
 
 // Query methods implementation.
 const QueryImpl = {
@@ -52,6 +53,18 @@ const QueryImpl = {
     // console.log(formattedInvestors)    
     return formattedInvestors;
   },
+  getContracts: async (_, { input }) => {
+    const { name, description, address } = input;
+    const params = {} as any;
+    if (name !== undefined) {
+      params.name = new RegExp(`.*${name}.*`, 'i');
+    }
+    if (description !== undefined) {
+      params.description = new RegExp(`.*${description}.*`, 'i');
+    }
+    const contracts = await Contract.find(params);
+    return contracts;
+  }
 }
 
 function generateSearchingParamsObject(filteredParams) {
@@ -66,7 +79,7 @@ function generateSearchingParamsObject(filteredParams) {
       const countOfFollowersFrom = `this.follows.length >= ${filteredParams.followersRangeFilter.from}`
       result.$where = countOfFollowersFrom;
     }
-  
+
     if (filteredParams.followersRangeFilter.to !== undefined) {
       const countOfFollowersTo = `this.follows.length <= ${filteredParams.followersRangeFilter.to}`;
       if (result.$where) {
