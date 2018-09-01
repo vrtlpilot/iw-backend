@@ -89,7 +89,6 @@ const Types = gql(`
     }
 
     input PoolInput {
-        poolName: String!
         owner: ID!
         projectName: String!
         projectLink: String!

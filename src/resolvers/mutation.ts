@@ -1,5 +1,5 @@
 import User from "../models/user";
-import Pool from "../models/Pool";
+import Pool, { generatePoolName } from "../models/Pool";
 import Post, { getPostData } from "../models/Post";
 import { formatPoolData, getPoolData } from '../models/Pool';
 
@@ -39,8 +39,9 @@ const MutationImpl = {
   createPool: async (_, { input }) => {
     // deploy contract
     // save contract's information in db
+    const poolName = generatePoolName();
     const poolData = formatPoolData(input);
-    const pool = await Pool.create({ ...poolData, verifyContractLink });
+    const pool = await Pool.create({ ...poolData, poolName, verifyContractLink });
     // temporarily return pool object
     return pool._id.toString();
   },

@@ -104,4 +104,14 @@ export function getPoolDataForSearchResult(pool) {
     }
 }
 
+export function generatePoolName() {
+    const number = Math.floor(Math.random() * 1000)
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(2);
+    const month = date.getMonth() + 1;
+    const dateOFMonth = date.getDate()
+    const poolName = `${number}-${dateOFMonth}/${month}/${year}`;
+    return poolName;
+}
+
 export default mongoose.model('Pool', schema); 
