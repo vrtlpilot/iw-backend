@@ -57,6 +57,7 @@ const Types = gql(`
         city: String
         education: String
         clinks: Clinks
+        follows: [ID!]
     }
 
     input EmploymentInput {
@@ -84,6 +85,7 @@ const Types = gql(`
         city: String
         job: EmploymentInput
         clinks: CLinksInput
+        follows: [ID!]
     }
 
     input PoolInput {
