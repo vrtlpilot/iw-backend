@@ -167,7 +167,7 @@ const Types = gql(`
     type Investor {
         id: ID!
         name: String!
-        login: String!
+        login: String
         countOfFollowers: Int!
     }
 `);
