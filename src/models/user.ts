@@ -24,6 +24,7 @@ const schema = new Schema({
         type: String, 
         required: true
     },
+    login: String,
     pwd: {
         type: Buffer,  
         required: true
@@ -119,7 +120,8 @@ export function setUserRole(user) {
 export function getUserData(user) {
     return {
         id: user._id,
-        name: user.name, 
+        name: user.name,
+        login: user.login,
         email: user.email,
         role: user.role,
         permissions: getPermission(user.role),

@@ -9,6 +9,7 @@ const Query = gql(`
         getPool(poolId: ID!): Pool
         searchPool(poolName: String!): [PoolInfo!]!
         getPost(postId: ID!): Post
+        getInvestors(input: InvestorsFilterParamsInput!): [Investor!]!
     }
 `);
 
@@ -48,6 +49,7 @@ const Types = gql(`
     type User {
         id: ID!
         name: String!
+        login: String!
         email: String!
         phone: String
         job: Employment
@@ -73,7 +75,8 @@ const Types = gql(`
 
     input UserInput {
         id: ID!
-        name: String        
+        login: String
+        name: String
         email: String
         education: String
         phone: String
@@ -141,6 +144,31 @@ const Types = gql(`
         postId: ID!,
         content: String!
         tags: [String!]
+    }
+
+    input InvestorsFilterParamsInput {
+        country: String
+        followersRangeFilter: FollowersRangeFilter
+        sortBy: SORTING_PARAMS
+    }
+
+    input FollowersRangeFilter {
+        from: Int
+        to: Int
+    }
+
+    enum SORTING_PARAMS {
+        NUMBER_OF_FOLLOWERS
+        CAPITAL_AMOUNT
+        PROFIT_LEVEL
+        PERCENTAGE_OF_PROFITABLE_INVESTMENTS
+    }
+
+    type Investor {
+        id: ID!
+        name: String!
+        login: String!
+        countOfFollowers: Int!
     }
 `);
 
