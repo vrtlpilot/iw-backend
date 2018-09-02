@@ -116,4 +116,4 @@ export function generatePoolName() {
     return poolName;
 }
 
-export default mongoose.model('Pool', schema); 
+export default mongoose.model('Pool', schema);

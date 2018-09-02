@@ -139,5 +139,5 @@ export function getUserData(user) {
         language: user.language
     }
 }
-
+  
 export default mongoose.model('User', schema);
