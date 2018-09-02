@@ -110,7 +110,8 @@ const Types = gql(`
         poolId: String!
         poolName: String!
         verifyContractLink: String!
-        owner: ID!
+        ownerId: ID!
+        ownerName: String!
         projectName: String!
         projectAdress: String!
         poolSoftCap: Float!
@@ -125,7 +126,8 @@ const Types = gql(`
     type PoolInfo {
         poolId: String!
         poolName: String!
-        owner: ID!
+        ownerId: ID!
+        ownerName: String!
         projectName: String!
         endDate: String!
     }

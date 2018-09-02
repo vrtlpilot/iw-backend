@@ -19,12 +19,22 @@ const QueryImpl = {
   }, */
 
   getPool: async (_, { poolId }) => {
-    const pool = await Pool.findById(poolId);
+    const pool = await Pool
+      .findById(poolId)
+      .populate({
+        path: 'owner',
+        select: 'name'
+      });
     return pool ? getPoolData(pool) : null;
   },
 
   searchPool: async (_, { poolName }) => {
-    const pools = await Pool.find({ poolName: new RegExp(`.*${poolName}.*`, 'i') });
+    const pools = await Pool
+      .find({ poolName: new RegExp(`.*${poolName}.*`, 'i') })
+      .populate({
+        path: 'owner',
+        select: 'name'
+      });
     return pools.map((pool => getPoolDataForSearchResult(pool)));
   },
 

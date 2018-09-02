@@ -81,7 +81,8 @@ export function getPoolData(pool) {
         poolId: pool._id,
         poolName: pool.poolName,
         verifyContractLink: pool.verifyContractLink,
-        owner: pool.owner,
+        ownerId: pool.owner._id,
+        ownerName: pool.owner.name,
         projectName: pool.name,
         projectAdress: pool.wallet.address,
         poolSoftCap: pool.sum_min,
@@ -98,7 +99,8 @@ export function getPoolDataForSearchResult(pool) {
     return {
         poolId: pool._id,
         poolName: pool.poolName,
-        owner: pool.owner,
+        ownerId: pool.owner._id,
+        ownerName: pool.owner.name,
         projectName: pool.name,
         endDate: pool.endDate
     }
