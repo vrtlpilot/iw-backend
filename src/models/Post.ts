@@ -41,4 +41,15 @@ export function getPostData(post) {
     }
 }
 
+// Compose post object properties needed for response on edit post request
+export function getPostDataForEditResponse(post) {
+    return {
+        postId: post._id,
+        userId: post.userId._id,
+        date: post.date,
+        content: post.content,
+        tags: post.tags
+    }
+}
+
 export default mongoose.model('Post', schema);   

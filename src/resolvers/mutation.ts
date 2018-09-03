@@ -1,6 +1,6 @@
 import User from "../models/user";
 import Pool, { generatePoolName } from "../models/Pool";
-import Post, { getPostData } from "../models/Post";
+import Post, { getPostData, getPostDataForEditResponse } from "../models/Post";
 import { formatPoolData, getPoolData } from '../models/Pool';
 import Contract from "../models/Contract";
 
@@ -55,7 +55,7 @@ const MutationImpl = {
   editPost: async (_, { input }) => {
     const { postId, ...postData } = input;
     const updatedPost = await Post.findByIdAndUpdate(postId, postData, { new: true });
-    return getPostData(updatedPost);
+    return getPostDataForEditResponse(updatedPost);
   },
 
   deletePost: async (_, { postId }) => {
