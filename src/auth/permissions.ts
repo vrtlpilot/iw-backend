@@ -2,13 +2,13 @@ import { notNull } from '../util/common';
 import { IWError } from '../util/IWError';
 
 // Available permissions.
-const Permissions = {
-    R: 1,  // read
-    W: 2,  // create
-    E: 4,  // edit
-    D: 8,  // delete
-    M: this.R | this.E | this.D,  // moderation
-    X: this.M | this.W  // full access
+const Permissions = new function() {
+    this.R = 1;  // Read
+    this.W = 2;  // Create
+    this.E = 4;  // Edit
+    this.D = 8;  // Delete
+    this.M = this.R | this.E | this.D;  // Moderation
+    this.X = this.M | this.W  // Full access
 }
 
 // Roles permissions schema
