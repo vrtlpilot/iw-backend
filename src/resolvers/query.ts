@@ -40,7 +40,12 @@ const QueryImpl = {
   },
 
   getPost: async (_, { postId }) => {
-    const post = await Post.findById(postId);
+    const post = await Post
+      .findById(postId)
+      .populate({
+        path: 'userId',
+        select: 'name login'
+      });
     return post ? getPostData(post) : null;
   },
 

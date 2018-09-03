@@ -32,7 +32,9 @@ const schema = new Schema({
 export function getPostData(post) {
     return {
         postId: post._id,
-        userId: post.userId,
+        userId: post.userId._id,
+        userName: post.userId.name,
+        userLogin: post.userId.login,
         date: post.date,
         content: post.content,
         tags: post.tags

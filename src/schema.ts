@@ -141,6 +141,8 @@ const Types = gql(`
     type Post {
         postId: ID!
         userId: ID!
+        userName: String!
+        userLogin: String!
         date: String!
         content: String!
         tags: [String!]!
