@@ -1,13 +1,6 @@
 import fs = require('fs');
-import Web3 = require('web3');
+import web3, {ethUrl} from './util';
 import { notNull, sleep } from '../util/common';
-
-// ETH node URL.
-const ethUrl = process.env.ETH_NODE_URL || 'http://icoworld.projects.oktend.com:8545';
-
-// Create a web3 connection
-const web3 = new Web3();
-web3.setProvider(new Web3.providers.HttpProvider(ethUrl));
 
 // Defintion of 'from' address.
 const accountAddr = process.env.ETH_FROM_ACCOUNT || web3.eth.coinbase;
