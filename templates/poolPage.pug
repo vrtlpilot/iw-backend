@@ -1,0 +1,65 @@
+doctype html
+html
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  body
+    h1 Pool
+
+    div      
+      span Pool number: 
+      b
+        span= pool.poolName
+    div      
+      span Verify contract link: 
+      b
+        span= pool.verifyContractLink
+    div      
+      span Owner's name: 
+      b
+        span= pool.owner.name
+    div      
+      span Pool name: 
+      b
+        span= pool.name
+    div      
+      span Project's link: 
+      b
+        span= pool.projectLink
+    div      
+      span Project's adress: 
+      b
+        span= pool.wallet.address
+    div      
+      span Pool soft cap: 
+      b
+        span= pool.sum_min
+    div      
+      span Pool hard cap: 
+      b
+        span= pool.sum_max
+    div      
+      span Min deposit: 
+      b
+        span= pool.sum_mbr_min
+    div      
+      span Max deposit: 
+      b
+        span= pool.sum_mbr_max
+    div      
+      span End date: 
+      b
+        span= pool.endDate
+    div      
+      span Comission of holder: 
+      b
+        span= pool.lead_comission
+    div      
+      span Address for comission payment: 
+      b
+        span= pool.addressForComissionPayment
+    div      
+      span Comission of icoworld: 
+      b
+        span= pool.comission
+
+    

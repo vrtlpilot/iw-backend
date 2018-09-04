@@ -10,6 +10,7 @@ import { IWError } from './util/IWError';
 import { hash, verify } from './auth/digest';
 import User, {setUserRole, getUserData} from './models/user';
 import {deployContract} from './eth/contracts';
+import admin from './admin';
 
 // Initialize of Koa application.
 const app = new Koa();
@@ -159,6 +160,9 @@ router.post('/deploy', async (ctx:Koa.Context) => {
 router.get('/', async (ctx: Koa.Context) => {
     ctx.body = 'icoWorld'
 })
+
+// admin api
+app.use(admin);
 
 app.use(router.routes());
 
