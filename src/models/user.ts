@@ -59,7 +59,7 @@ const schema = new Schema({
             type: String,
             default: ""
         },
-        insta: {
+        instagram: {
             type: String,
             default: ""
         },

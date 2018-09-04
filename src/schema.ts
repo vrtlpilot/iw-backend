@@ -43,7 +43,7 @@ const Types = gql(`
     type Clinks {
         fb: String
         linkedin: String
-        insta: String
+        instagram: String
         twitter: String
         telegram: String
         wechat: String
@@ -71,7 +71,7 @@ const Types = gql(`
     input CLinksInput {
         fb: String
         linkedin: String
-        insta: String
+        instagram: String
         twitter: String
         telegram: String
         wechat: String
@@ -101,15 +101,15 @@ const Types = gql(`
         minDeposit: Float!
         maxDeposit: Float!
         endDate: String!
-        comissionOfHolder: Float!
-        addressForComissionPayment: String!
-        comissionOfIcoWorld: Float!
+        ownerComission: Float!
+        comissionPaymentAddress: String!
+        iwComission: Float!
     }
 
     type Pool {
         poolId: String!
         poolName: String!
-        verifyContractLink: String!
+        status: Int!
         ownerId: ID!
         ownerName: String!
         projectName: String!
@@ -119,8 +119,8 @@ const Types = gql(`
         minDeposit: Float!
         maxDeposit: Float!
         endDate: String!
-        comissionOfHolder: Float!
-        comissionOfIcoWorld: Float!
+        ownerComission: Float!
+        iwComission: Float!
     }
 
     type PoolInfo {

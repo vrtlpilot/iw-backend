@@ -21,7 +21,10 @@ const schema = new Schema({
     },
     name: String,
     poolName: String,
-    verifyContractLink: String,
+    status: {
+        type: Number,
+        default: 0
+    },
     /* description: String, */
     projectLink: String,
     wallet: Wallet,
@@ -30,7 +33,7 @@ const schema = new Schema({
     sum_mbr_min: Number,
     sum_mbr_max: Number,
     endDate: Date,
-    addressForComissionPayment: String,
+    comissionPaymentAddress: String,
     comission: Number,
     lead_comission: Number,
     members: [Member]
@@ -40,7 +43,6 @@ const schema = new Schema({
 export function formatPoolData(input) {
     const {
         poolName,
-        verifyContractLink,
         owner,
         projectName,
         projectLink,
@@ -51,13 +53,12 @@ export function formatPoolData(input) {
         maxDeposit,
         endDate,
         comissionOfHolder,
-        addressForComissionPayment,
+        comissionPaymentAddress,
         comissionOfIcoWorld
     } = input;
 
     return {
         poolName,
-        verifyContractLink,
         owner,
         name: projectName,
         projectLink,
@@ -70,7 +71,7 @@ export function formatPoolData(input) {
         sum_mbr_max: maxDeposit,
         endDate: endDate,
         lead_comission: comissionOfHolder,
-        addressForComissionPayment,
+        comissionPaymentAddress,
         comission: comissionOfIcoWorld
     }
 }
@@ -80,7 +81,7 @@ export function getPoolData(pool) {
     return {
         poolId: pool._id,
         poolName: pool.poolName,
-        verifyContractLink: pool.verifyContractLink,
+        status: pool.status,
         ownerId: pool.owner._id,
         ownerName: pool.owner.name,
         projectName: pool.name,

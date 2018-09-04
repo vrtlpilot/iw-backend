@@ -42,7 +42,7 @@ const MutationImpl = {
     // save contract's information in db
     const poolName = generatePoolName();
     const poolData = formatPoolData(input);
-    const pool = await Pool.create({ ...poolData, poolName, verifyContractLink });
+    const pool = await Pool.create({ ...poolData, poolName });
     // temporarily return pool object
     return pool._id.toString();
   },
