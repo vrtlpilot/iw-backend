@@ -19,22 +19,20 @@ const contracts = JSON.parse(source)["contracts"];
  * Get contract by name.
  * @param name 
  */
-function getContract(name: string) {
+export function getContract(name: string) {
     // Get source
-    const src = contracts[name].src;
+    const _src = contracts[name].src;
 
     // Get ABI description
-    const abi = contracts[name].abi;
+    const _abi = contracts[name].abi;
 
     // Smart contract EVM bytecode as hex
-    const bin = '0x' + contracts[name].bin;
+    const _bin = '0x' + contracts[name].bin;
 
-    // Create Contract proxy class
-    const proxy = web3.eth.contract(abi);
     return {
-        factory: proxy,
-        code: bin,
-        source: src
+        abi: _abi,
+        bin: _bin,
+        src: _src
     }
 }
 
@@ -66,21 +64,21 @@ async function waitForBlocks(contract, timeout) {
 export async function deployContract(name: string, ...args) {
     notNull(name, 'Contract name');
     web3.personal.unlockAccount(accountAddr, privateKey, 60000);
-    console.log("Unlocked the account...");
+    console.log("Unlock the account...");
     // Create contract instance.
-    const { factory, code, source } = getContract(name);
-
+    const { abi, bin, src } = getContract(name);
+    // Create Contract proxy class
+    const factory = web3.eth.contract(abi);
     console.log("Deploying the contract...");
     // Deploy the contract.
-    const contract = factory.new(args, {from: accountAddr, gas: priceGas, data: code});
+    const contract = factory.new(args, {from: accountAddr, gas: priceGas, data: bin});
     // Transaction has entered to memory pool
     console.log(`Contract is being deployed in transaction at ${ethUrl}, hash: ${contract.transactionHash}`);
-    const encAbi = factory.new.getData(args, {data: code});
+    const encAbi = factory.new.getData(args, {data: bin});
 
     const _address = await waitForBlocks(contract, blocksTimeout);
     return {
-        name: name,
-        src: source,
+        source: src,
         abi: encAbi,
         address: _address,
     }

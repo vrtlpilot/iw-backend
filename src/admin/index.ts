@@ -75,6 +75,12 @@ router.get('/admin/pools/:id/deploy', async (ctx) => {
   try {
     const args = ["0x007ccffb7916f37f7aeef05e8096ecfbe55afc2f", 100000];
     const data = await deployContract(pool.contract, args);
+    pool.deploy = { abi: data.abi, address: data.address };
+    try {
+      await pool.save();
+    } catch(err) {
+      console.log(`Error saving contract data for Pool: ${pool.poolName}`);
+    }
   } catch (err) {
     error = err;
   }

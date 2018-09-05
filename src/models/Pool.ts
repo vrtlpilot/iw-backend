@@ -19,6 +19,15 @@ export const Status = {
     Cancelled: 10
 }
 
+// Contract name associated with pool.
+const ContractName = 'TestContract';
+
+// Pool deployed contract data.
+const ContractData = new mongoose.Schema({
+    abi: String,
+    address: String
+});
+
 // Pool member definition.
 const Member = new Schema({
     user_id: {
@@ -44,6 +53,7 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    deploy: ContractData,
     /* description: String, */
     projectLink: String,
     wallet: Wallet,
@@ -79,6 +89,7 @@ export function formatPoolData(input) {
         owner,
         name: projectName,
         projectLink,
+        contract: ContractName,
         wallet: {
             address: projectAdress
         },
