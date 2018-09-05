@@ -91,8 +91,8 @@ export function getPoolData(pool) {
         minDeposit: pool.sum_mbr_min,
         maxDeposit: pool.sum_mbr_max,
         endDate: pool.endDate,
-        comissionOfHolder: pool.lead_comission,
-        comissionOfIcoWorld: pool.comission,
+        ownerComission: pool.lead_comission,
+        iwComission: pool.comission,
     }
 }
 
