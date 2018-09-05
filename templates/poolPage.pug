@@ -6,13 +6,13 @@ html
     h1 Pool
 
     div      
+      span Status: 
+      b
+        span= pool.status
+    div      
       span Pool number: 
       b
         span= pool.poolName
-    div      
-      span Verify contract link: 
-      b
-        span= pool.verifyContractLink
     div      
       span Owner's name: 
       b
@@ -56,10 +56,22 @@ html
     div      
       span Address for comission payment: 
       b
-        span= pool.addressForComissionPayment
+        span= pool.comissionPaymentAddress
     div      
       span Comission of icoworld: 
       b
         span= pool.comission
 
+    h1 Actions with pool
+
+    p
+      a(href=`/admin/pools/${pool._id}/remove`) Remove
+    p
+      a(href=`/admin/pools/${pool._id}/block`) Block
+    p
+      a(href=`/admin/pools/${pool._id}/hold`) Hold
+    p
+      a(href=`/admin/pools/${pool._id}/verify`) Verify
+    p
+      a(href=`/admin/pools/${pool._id}/deploy`) Deploy
     

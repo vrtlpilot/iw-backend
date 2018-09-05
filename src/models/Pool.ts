@@ -52,9 +52,9 @@ export function formatPoolData(input) {
         minDeposit,
         maxDeposit,
         endDate,
-        comissionOfHolder,
+        ownerComission,
         comissionPaymentAddress,
-        comissionOfIcoWorld
+        iwComission
     } = input;
 
     return {
@@ -70,9 +70,9 @@ export function formatPoolData(input) {
         sum_mbr_min: minDeposit,
         sum_mbr_max: maxDeposit,
         endDate: endDate,
-        lead_comission: comissionOfHolder,
+        lead_comission: ownerComission,
         comissionPaymentAddress,
-        comission: comissionOfIcoWorld
+        comission: iwComission
     }
 }
 
