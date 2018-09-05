@@ -4,6 +4,21 @@ import Wallet from './Wallet';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
+// Available statuses.
+export const Status = {
+    Created: 0,
+    Removed: 1,
+    Blocked: 2,
+    OnHold: 3,
+    Verified: 4,
+    Deploying: 5,
+    DeployFailed: 6,
+    Deployed: 7,
+    WaitForStart: 8,
+    Started: 9,
+    Cancelled: 10
+}
+
 // Pool member definition.
 const Member = new Schema({
     user_id: {
@@ -23,7 +38,11 @@ const schema = new Schema({
     poolName: String,
     status: {
         type: Number,
-        default: 0
+        default: Status.Created
+    },
+    contract: {
+        type: String,
+        required: true
     },
     /* description: String, */
     projectLink: String,
@@ -42,7 +61,6 @@ const schema = new Schema({
 // transform object's properties for db
 export function formatPoolData(input) {
     const {
-        poolName,
         owner,
         projectName,
         projectLink,
@@ -58,7 +76,6 @@ export function formatPoolData(input) {
     } = input;
 
     return {
-        poolName,
         owner,
         name: projectName,
         projectLink,

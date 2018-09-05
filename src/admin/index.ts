@@ -1,7 +1,8 @@
 import * as path from 'path';
 import * as Router from 'koa-router';
 import * as pug from 'pug';
-import Pool from '../models/Pool';
+import Pool, { Status } from '../models/Pool';
+import { deployContract } from '../eth/contracts';
 
 const router = new Router();
 
@@ -40,37 +41,45 @@ router.get('/admin/pools/:id', async (ctx) => {
 
 router.get('/admin/pools/:id/remove', async (ctx) => {
   const id = ctx.params.id;
-  await changePoolStatus(id, 1);
+  await changePoolStatus(id, Status.Removed);
   const message = 'Pool has been removed';
   ctx.body = compileConfirmPage(message);
 })
 
 router.get('/admin/pools/:id/block', async (ctx) => {
   const id = ctx.params.id;
-  await changePoolStatus(id, 2);
+  await changePoolStatus(id, Status.Blocked);
   const message = 'Pool has been blocked';
   ctx.body = compileConfirmPage(message);
 })
 
 router.get('/admin/pools/:id/hold', async (ctx) => {
   const id = ctx.params.id;
-  await changePoolStatus(id, 3);
+  await changePoolStatus(id, Status.OnHold);
   const message = 'Pool has been held';
   ctx.body = compileConfirmPage(message);
 })
 
 router.get('/admin/pools/:id/verify', async (ctx) => {
   const id = ctx.params.id;
-  await changePoolStatus(id, 4);
+  await changePoolStatus(id, Status.Verified);
   const message = 'Pool has been verified';
   ctx.body = compileConfirmPage(message);
 })
 
 router.get('/admin/pools/:id/deploy', async (ctx) => {
   const id = ctx.params.id;
-  await changePoolStatus(id, 5);
-  const message = 'Pool has been deployed';
-  ctx.body = compileConfirmPage(message);
+  const pool = await Pool.findById(id) as any;
+  await changePoolStatus(id, Status.Deploying);
+ let error = undefined;
+  try {
+    const args = ["0x007ccffb7916f37f7aeef05e8096ecfbe55afc2f", 100000];
+    const data = await deployContract(pool.contract, args);
+  } catch (err) {
+    error = err;
+  }
+  await changePoolStatus(id, (error) ? Status.DeployFailed : Status.Deployed);
+  ctx.body = compileConfirmPage((error) ? `Error deployig pool contract: ${error}` : 'Pool has been deployed');
 })
 
 export default router.routes();

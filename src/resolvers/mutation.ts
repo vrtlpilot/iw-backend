@@ -41,8 +41,9 @@ const MutationImpl = {
     // deploy contract
     // save contract's information in db
     const poolName = generatePoolName();
+    const contract = 'TestContract';
     const poolData = formatPoolData(input);
-    const pool = await Pool.create({ ...poolData, poolName });
+    const pool = await Pool.create({ ...poolData, poolName, contract });
     // temporarily return pool object
     return pool._id.toString();
   },
