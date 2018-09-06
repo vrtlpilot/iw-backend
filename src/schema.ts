@@ -18,7 +18,7 @@ const Query = gql(`
 const Mutation = gql(`
     type Mutation {
         updateUser(input: UserInput!): User!
-        createPool(input: PoolInput!): String!
+        createPool(input: PoolInput!): PoolCreateResponse!
         createPost(input: PostInput!): ID!
         editPost(input: PostEditInput!): PostEditResponse!
         deletePost(postId: ID!): ID!
@@ -121,6 +121,11 @@ const Types = gql(`
         endDate: String!
         ownerComission: Float!
         iwComission: Float!
+    }
+
+    type PoolCreateResponse {
+        poolId: ID!
+        poolName: String!
     }
 
     input PostSearchingParamsInput {

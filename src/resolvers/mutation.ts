@@ -44,7 +44,10 @@ const MutationImpl = {
     const poolData = formatPoolData(input);
     const pool = await Pool.create({ ...poolData, poolName, });
     // temporarily return pool object
-    return pool._id.toString();
+    return {
+      poolId: pool._id,
+      poolName
+    }
   },
 
   createPost: async (_, { input: postData }) => {
