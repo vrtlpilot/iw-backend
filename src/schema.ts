@@ -2,13 +2,13 @@ import QueryImpl from './resolvers/query';
 import MutationImpl from './resolvers/mutation';
 import { gql, Config } from "apollo-server";
 
-
 // Query definition.
 const Query = gql(`
     type Query {
         getPool(poolId: ID!): Pool
         searchPool(poolName: String!): [PoolInfo!]!
         getPost(postId: ID!): Post
+        searchPost(searchText: String!): [Post!]!
         getInvestors(input: InvestorsFilterParamsInput!): [Investor!]!
         getContracts(input: ContractsParamsInput!): [Contract]!
     }

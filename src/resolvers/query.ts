@@ -2,7 +2,8 @@ import User from "../models/user";
 import Pool from "../models/Pool";
 import { getPoolData, getPoolDataForSearchResult } from '../models/Pool';
 import Post, { getPostData } from "../models/Post";
-import { generateSearchingParamsObject, generateSortingParamsObj, formatInvestor } from './helpers/investor';
+import * as investorHelpers from './helpers/investor';
+import * as postHelpers from './helpers/posts'
 import Contract from "../models/Contract";
 
 // Query methods implementation.
@@ -49,16 +50,28 @@ const QueryImpl = {
     return post ? getPostData(post) : null;
   },
 
+  searchPost: async (_, { searchText }) => {
+    const searchingParamsObject = postHelpers.generateSearchingParamsObject(searchText);
+
+    const posts = await Post
+      .find(searchingParamsObject)
+      .populate({
+        path: 'userId',
+        select: 'name login'
+      });
+    return posts.map((post => getPostData(post)));
+  },
+
   getInvestors: async (_, { input }) => {
     const { sortBy, ...filterParams } = input;
-    const searchingParamsObject = generateSearchingParamsObject(filterParams);
-    const sortingParams = generateSortingParamsObj(sortBy);
+    const searchingParamsObject = investorHelpers.generateSearchingParamsObject(filterParams);
+    const sortingParams = investorHelpers.generateSortingParamsObj(sortBy);
     const investors = await User
       .find(searchingParamsObject)
       .sort(sortingParams)
       .select({ name: 1, follows: 1, login: 1 });
 
-    const formattedInvestors = investors.map(investor => formatInvestor(investor));
+    const formattedInvestors = investors.map(investor => investorHelpers.formatInvestor(investor));
     return formattedInvestors;
   },
 
