@@ -8,7 +8,7 @@ const Query = gql(`
         getPool(poolId: ID!): Pool
         searchPool(poolName: String!): [PoolInfo!]!
         getPost(postId: ID!): Post
-        searchPost(searchText: String!): [Post!]!
+        searchPost(input: PostSearchingParamsInput!): [Post!]!
         getInvestors(input: InvestorsFilterParamsInput!): [Investor!]!
         getContracts(input: ContractsParamsInput!): [Contract]!
     }
@@ -121,6 +121,11 @@ const Types = gql(`
         endDate: String!
         ownerComission: Float!
         iwComission: Float!
+    }
+
+    input PostSearchingParamsInput {
+        searchText: String
+        userId: ID
     }
 
     type PoolInfo {

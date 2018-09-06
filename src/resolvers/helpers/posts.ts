@@ -1,8 +1,12 @@
-export function generateSearchingParamsObject(searchText) {
+export function generateSearchingParamsObject(searchParams) {
   const result = {} as any;
 
-  if (searchText !== '') {
-    result.content = new RegExp(`.*${searchText}.*`, 'i');
+  if (searchParams.searchText !== undefined) {
+    result.content = new RegExp(`.*${searchParams.searchText}.*`, 'i');
+  }
+
+  if (searchParams.userId !== undefined) {
+    result.userId = searchParams.userId;
   }
 
   return result;

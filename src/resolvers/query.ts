@@ -50,8 +50,8 @@ const QueryImpl = {
     return post ? getPostData(post) : null;
   },
 
-  searchPost: async (_, { searchText }) => {
-    const searchingParamsObject = postHelpers.generateSearchingParamsObject(searchText);
+  searchPost: async (_, { input }) => {
+    const searchingParamsObject = postHelpers.generateSearchingParamsObject(input);
 
     const posts = await Post
       .find(searchingParamsObject)
