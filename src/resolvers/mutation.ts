@@ -57,6 +57,7 @@ const MutationImpl = {
 
   editPost: async (_, { input }) => {
     const { postId, ...postData } = input;
+    postData.edited = Date.now();
     const updatedPost = await Post.findByIdAndUpdate(postId, postData, { new: true });
     return getPostDataForEditResponse(updatedPost);
   },
