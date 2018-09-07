@@ -50,13 +50,8 @@ const QueryImpl = {
     return post ? getPostData(post) : null;
   },
 
-<<<<<<< HEAD
-  searchPost: async (_, { searchText }) => {
-    const searchingParamsObject = postHelpers.generateSearchingParamsObject(searchText);
-=======
   searchPost: async (_, { input }) => {
     const searchingParamsObject = postHelpers.generateSearchingParamsObject(input);
->>>>>>> 559173570c3dd714b561ad578bac52b5d02e46ce
 
     const posts = await Post
       .find(searchingParamsObject)
