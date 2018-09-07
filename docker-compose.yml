@@ -9,7 +9,10 @@ services:
     restart: on-failure 
   
   app:
-      build: .
+      build:
+        context: .
+        args:
+          NODE_URL=http://icoworld.projects.oktend.com:8545
       ports:
         - "3000:3000"
       depends_on:
