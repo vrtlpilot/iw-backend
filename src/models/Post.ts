@@ -11,21 +11,26 @@ const schema = new Schema({
         ref: 'User',
         required: true
     },
-     /* title: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    }, */
     date: {
         type: Date,
         default: Date.now
     },
+    edited: {
+        type: Date,
+        default: Date.now
+    },
     content: String,
+    reposted: Number,
+    comments: [{
+        type: ObjectId,
+        ref: 'Comment'
+    }],
+    likes: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
     tags: [String],
-    /* images: [Image] */
+    attachments: [Image]
 });
 
 // Compose post object properties for UI
@@ -36,8 +41,13 @@ export function getPostData(post) {
         userName: post.userId.name,
         userLogin: post.userId.login,
         date: post.date,
+        edited: post.edited,
         content: post.content,
-        tags: post.tags
+        reposted: post.reposted,
+        comments: post.comments,
+        likes: post.likes,
+        tags: post.tags,
+        attachments: post.attachments
     }
 }
 
@@ -47,8 +57,13 @@ export function getPostDataForEditResponse(post) {
         postId: post._id,
         userId: post.userId._id,
         date: post.date,
+        edited: post.edited,
         content: post.content,
-        tags: post.tags
+        reposted: post.reposted,
+        comments: post.comments,
+        likes: post.likes,
+        tags: post.tags,
+        attachments: post.attachments
     }
 }
 

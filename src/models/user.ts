@@ -76,10 +76,10 @@ const schema = new Schema({
             default: ""
         }
     },
-    // deals: [{
-    //     type: ObjectId,
-    //     ref: 'Deal'
-    // }],
+    wall: [{
+        type: ObjectId,
+        ref: 'Post'
+    }],
     pools: [{
         type: ObjectId,
         ref: 'Pool'
@@ -131,6 +131,7 @@ export function getUserData(user) {
         avatar: user.avatar,
         location: user.location,
         clinks: user.clinks,
+        wall: user.wall,
         pools: user.pools,
         wallets: user.wallets,
         follows: user.follows,
