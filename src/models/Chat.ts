@@ -5,11 +5,11 @@ const ObjectId = Schema.Types.ObjectId;
 
 // Chat schema definition.
 const schema = new Schema({
-    userId: {
+    members: [{
         type: ObjectId,
         ref: 'User',
         required: true
-    },
+    }],
     messages: [{
         type: ObjectId,
         ref: 'Message'
