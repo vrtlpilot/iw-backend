@@ -85,6 +85,10 @@ const schema = new Schema({
         ref: 'Pool'
     }],
     wallets: [Wallet],
+    chats:  [{
+        type: ObjectId,
+        ref: 'Chat'
+    }],
     follows: [{
         type: ObjectId,
         ref: 'User'
@@ -134,6 +138,7 @@ export function getUserData(user) {
         wall: user.wall,
         pools: user.pools,
         wallets: user.wallets,
+        chats: user.chats,
         follows: user.follows,
         subscribers: user.subscribers,
         notifications: user.notifications,
