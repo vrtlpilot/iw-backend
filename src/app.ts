@@ -70,13 +70,16 @@ passport.use('local-signup', new LocalStrategy({
 },
     async function (ctx, email, password, done) {
         const { firstName, lastName } = ctx.body;
-        const userData = {
-            name: `${firstName} ${lastName}`,
-            email,
-            pwd: await hash(password)
-        };
         try {
-            const user = await User.create(userData);
+            let user = await User.findOne({ email }) as any;
+            if(user)
+                throw new IWError(409, `There's an account already registered to email: ${email}`);
+            const userData = {
+                name: `${firstName} ${lastName}`,
+                email,
+                pwd: await hash(password)
+            };
+            user = await User.create(userData);
             user.save();
             return done(null, user);
         } catch (err) {
