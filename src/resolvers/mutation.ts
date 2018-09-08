@@ -51,8 +51,14 @@ const MutationImpl = {
   },
 
   createPost: async (_, { input: postData }) => {
-    const post = await Post.create(postData);
-    return post._id;
+    const createdPost = await Post.create(postData);
+    const post = await Post
+      .findById(createdPost._id)
+      .populate({
+        path: 'userId',
+        select: 'name login'
+      });
+    return getPostData(post);
   },
 
   editPost: async (_, { input }) => {
