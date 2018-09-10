@@ -13,6 +13,7 @@ services:
         - "27017"
     volumes:
       - "/var/mongo-data:/data/db"
+      - "/var/backups:/var/backups"
     restart: on-failure
     container_name: database
   
