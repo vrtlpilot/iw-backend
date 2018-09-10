@@ -2,7 +2,7 @@ version: '2'
 services:
   
   proxy:
-    bild: ./nginx
+    build: ./nginx
     ports:
       - "3000:3000"
     container_name: balancer
