@@ -1,12 +1,20 @@
 version: '2' 
 services:
+  
+  proxy:
+    bild: ./nginx
+    ports:
+      - "3000:3000"
+    container_name: balancer
+
   db:
     image: mongo
     ports:
-        - "27017:27017"
+        - "27017"
     volumes:
       - "/var/mongo-data:/data/db"
-    restart: on-failure 
+    restart: on-failure
+    container_name: database
   
   app:
       build:
@@ -14,7 +22,10 @@ services:
         args:
           NODE_URL: http://icoworld.projects.oktend.com:8545
       ports:
-        - "3000:3000"
-      depends_on:
-        - "db"
-      command: ["./wait-for-it.sh", "db:27017", "--", "npm", "start"]
+        - "3000"
+  backend-1:
+    extends:
+      service: app
+  backend-2:
+    extends:
+      service: app
