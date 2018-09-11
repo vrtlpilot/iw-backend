@@ -9,11 +9,9 @@ services:
 
   db:
     image: mongo
-    ports:
-        - "27017"
     volumes:
       - "/var/mongo-data:/data/db"
-      - "/var/backups:/var/backups"
+      - "/var/mongo-backup:/opt"
     restart: on-failure
     container_name: database
   
@@ -22,8 +20,8 @@ services:
         context: .
         args:
           NODE_URL: http://icoworld.projects.oktend.com:8545
-      ports:
-        - "3000"
+          PORT: 3000
+          DB_URI: mongodb://db:27017/ico_world_db
   backend-1:
     extends:
       service: app
