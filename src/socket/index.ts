@@ -99,6 +99,7 @@ io.on('newMessage', async (ctx, data) => {
     ctx.socket.emit('newMessage', response);
   } catch (error) {
     console.log(error);
+    ctx.socket.emit('error', error);
   }
 });
 
