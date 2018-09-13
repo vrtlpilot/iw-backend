@@ -4,8 +4,6 @@ pipeline {
         stage('backend master Build') {
             steps {
                 sh 'cp /var/icoworld/.env .'
-                echo "Start nginx proxy........."
-                sh 'docker-compose up -d proxy'
                 echo "Start database............"
                 sh 'docker-compose up -d db'
                 echo "Export env"
@@ -21,6 +19,8 @@ pipeline {
                 echo "Shut down backend-2 and restart with new image"
                 sh 'docker-compose stop backend-2'
                 sh 'docker-compose up -d --force-recreate backend-2'
+                echo "Start nginx proxy........."
+                sh 'docker-compose up -d proxy'
                 echo "FINISHED........"
             }
         }
