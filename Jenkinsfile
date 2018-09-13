@@ -8,6 +8,9 @@ pipeline {
                 sh 'docker-compose up -d proxy'
                 echo "Start database............"
                 sh 'docker-compose up -d db'
+                echo "Export env"
+                sh 'export BUILD_ID=${BUILD_ID}'
+                echo "Build backend services with build number - ${env.BUILD_ID}........"
                 echo "Build backend services........"
                 sh 'docker-compose build --no-cache app backend-1 backend-2'
                 echo "Shut down backend-1 and restart with new image"
