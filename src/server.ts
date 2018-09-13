@@ -1,11 +1,15 @@
 import app from './app';
 import { ApolloServer } from 'apollo-server-koa';
+import io from './socket'
 import schema from './schema';
 import database, {close} from './db';
 
 // Create the server
 const server = new ApolloServer(schema);
 server.applyMiddleware({ app });
+
+// Attach the socket to the application
+io.attach(app);
 
 let exitTimeout = undefined;
 // Cleanup resources.
