@@ -11,7 +11,7 @@ const blocksTimeout = process.env.ETH_WAIT_TIMEOUT || 30000;
 // Private key or password.
 const privateKey = process.env.ETH_PRIVATE_KEY || "";
 
-// Read the compiled contract code
+// Read the contracts bundle.
 const source = fs.readFileSync("contracts.json", 'utf8');
 const contracts = JSON.parse(source)["contracts"];
 
@@ -21,8 +21,14 @@ const contracts = JSON.parse(source)["contracts"];
  */
 export function getContract(name: string) {
     // Get source
-    const _src = contracts[name].src;
-
+    let _src: string = contracts[name].src;
+    if(_src.length > 50) {
+        const cpath = `${process.cwd}/sol/${_src.trim()}`;
+        if(fs.existsSync(cpath))
+            _src = fs.readFileSync(`${process.cwd}/sol/${_src.trim()}`, 'utf8');
+        else
+            console.log(`Cannot read source for contract: <${name}>. Path ${cpath} doesn't exists!`);   
+    }
     // Get ABI description
     const _abi = contracts[name].abi;
 
