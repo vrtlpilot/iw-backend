@@ -1,24 +1,19 @@
-import User from "../models/user";
+import User, { getUserData, getShortUserData } from "../models/user";
 import Pool from "../models/Pool";
 import { getPoolData, getPoolDataForSearchResult } from '../models/Pool';
 import Post, { getPostData } from "../models/Post";
 import * as investorHelpers from './helpers/investor';
 import * as postHelpers from './helpers/posts'
 import Contract from "../models/Contract";
+import Comment, { getCommentData } from "../models/Comment";
+import { getRepostData } from "../models/RePost";
 
 // Query methods implementation.
 const QueryImpl = {
-  /* user: async (parent, args) => {
-    const user = await User.findById(args.id);
-    return user;
+  getUser: async (_, { userId }) => {
+    const user = await User.findById(userId);
+    return getUserData(user);
   },
-  users: async (parent, args) => {
-    const users = await User.find(args);
-    return users.map(user => {
-      user._id = user._id.toString;
-      return user;
-    });
-  }, */
 
   getPool: async (_, { poolId }) => {
     const pool = await Pool
@@ -38,6 +33,12 @@ const QueryImpl = {
         select: 'name'
       });
     return pools.map((pool => getPoolDataForSearchResult(pool)));
+  },
+
+  getPools: async (_, { userId }) => {
+    const user = await User.findById(userId) as any;
+    const pools = await Pool.find().where('_id').in(user.pools);
+    return pools.map((pool => getPoolData(pool)));
   },
 
   getPost: async (_, { postId }) => {
@@ -62,6 +63,27 @@ const QueryImpl = {
     return posts.map((post => getPostData(post)));
   },
 
+  getReposts: async (_, { userId }) => {
+    const user = await User.findById(userId) as any;
+    const repsMap = new Map();
+    user.reposts.forEach(item => {
+      repsMap.set(item.postId, item.date);
+    });
+    const ids = Array.from(repsMap.keys());
+    const posts = await Post.find().where('_id').in(ids)
+      .populate({
+        path: 'userId',
+        select: 'name login avatar'
+      });
+    return posts.map(post => getRepostData(post, repsMap.get(post._id)));
+  },
+
+  getComments: async (_, { postId }) => {
+    const post = await Post.findById(postId) as any;
+    const comments = await Comment.find().where('_id').in(post.comments);
+    return comments.map((cmt => getCommentData(cmt)));
+  },
+
   getInvestors: async (_, { input }) => {
     const { sortBy, ...filterParams } = input;
     const searchingParamsObject = investorHelpers.generateSearchingParamsObject(filterParams);
@@ -73,6 +95,20 @@ const QueryImpl = {
 
     const formattedInvestors = investors.map(investor => investorHelpers.formatInvestor(investor));
     return formattedInvestors;
+  },
+
+  getFollows: async (_, { userId }) => {
+    const user = await User.findById(userId) as any;
+    const users = await User.find().where('_id').in(user.follows)
+      .select({ name: 1, login: 1, avatar: 1, location: 1 });
+    return users.map((usr => getShortUserData(usr)));
+  },
+
+  getSubscribers: async (_, { userId }) => {
+    const user = await User.findById(userId) as any;
+    const users = await User.find().where('_id').in(user.subscribers)
+      .select({ name: 1, login: 1, avatar: 1, location: 1 });
+    return users.map((usr => getShortUserData(usr)));
   },
 
   getContracts: async (_, { input }) => {

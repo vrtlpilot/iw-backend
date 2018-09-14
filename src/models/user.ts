@@ -2,6 +2,7 @@ import mongoose = require('mongoose');
 import {Image} from './Image';
 import Wallet from './Wallet';
 import {Roles, getPermission} from '../auth/permissions';
+import RePost from './RePost';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
@@ -76,10 +77,11 @@ const schema = new Schema({
             default: ""
         }
     },
-    wall: [{
+    posts: [{
         type: ObjectId,
         ref: 'Post'
     }],
+    reposts: [RePost],
     pools: [{
         type: ObjectId,
         ref: 'Pool'
@@ -119,7 +121,16 @@ schema.set('toJSON', {
 export function setUserRole(user) {
     user.role = Roles.User;
 }
-
+// Compose user object properties for UI
+export function getShortUserData(user) {
+    return {
+        id: user._id,
+        name: user.name,
+        login: user.login,
+        avatar: user.avatar,
+        location: user.location,
+    }
+}
 // Compose user object properties for UI
 export function getUserData(user) {
     return {
@@ -135,12 +146,7 @@ export function getUserData(user) {
         avatar: user.avatar,
         location: user.location,
         clinks: user.clinks,
-        wall: user.wall,
-        pools: user.pools,
         wallets: user.wallets,
-        chats: user.chats,
-        follows: user.follows,
-        subscribers: user.subscribers,
         notifications: user.notifications,
         language: user.language
     }

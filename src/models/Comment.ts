@@ -10,21 +10,18 @@ const schema = new Schema({
         ref: 'User',
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
-    },
     content: String,
-});
+}, { timestamps: true });
 
-// Compose comment object properties for UI
+// Compose comment object properties for UI.
 export function getCommentData(item) {
     return {
         Id: item._id,
         userId: item.userId._id,
         userName: item.userId.name,
         userLogin: item.userId.login,
-        date: item.date,
+        date: item.createdAt,
+        edited: item.updatedAt,
         content: item.content,
     }
 }

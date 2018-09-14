@@ -5,10 +5,16 @@ import { gql, Config } from "apollo-server";
 // Query definition.
 const Query = gql(`
     type Query {
+        getUser(userId: ID!): User
+        getFollows(userId: ID!): [User]!
+        getSubscribers(userId: ID!): [User]!
         getPool(poolId: ID!): Pool
+        getPools(userId: ID!): [Pool]!
         searchPool(poolName: String!): [PoolInfo!]!
         getPost(postId: ID!): Post
         searchPost(input: PostSearchingParamsInput!): [Post!]!
+        getReposts(userId: ID!): [Post]!
+        getComments(postId: ID!): [Comment]!
         getInvestors(input: InvestorsFilterParamsInput!): [Investor!]!
         getContracts(input: ContractsParamsInput!): [Contract]!
     }
@@ -170,6 +176,16 @@ const Types = gql(`
         postId: ID!,
         content: String!
         tags: [String!]
+    }
+
+    type Comment {
+        commentId: ID!
+        userId: ID!
+        userName: String!
+        userLogin: String!
+        date: String!
+        edited: String!
+        content: String!
     }
 
     input InvestorsFilterParamsInput {

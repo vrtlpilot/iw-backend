@@ -5,7 +5,7 @@ const ObjectId = Schema.Types.ObjectId;
 
 // Message schema definition.
 const schema = new Schema({
-    user_id: {
+    userId: {
         type: ObjectId,
         ref: 'User',
         required: true

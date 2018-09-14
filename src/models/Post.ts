@@ -11,14 +11,6 @@ const schema = new Schema({
         ref: 'User',
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
-    },
-    edited: {
-        type: Date,
-        default: Date.now
-    },
     content: String,
     reposted: Number,
     comments: [{
@@ -31,7 +23,7 @@ const schema = new Schema({
     }],
     tags: [String],
     attachments: [Image]
-});
+}, { timestamps: true });
 
 // Compose post object properties for UI
 export function getPostData(post) {
@@ -40,8 +32,8 @@ export function getPostData(post) {
         userId: post.userId._id,
         userName: post.userId.name,
         userLogin: post.userId.login,
-        date: post.date,
-        edited: post.edited,
+        date: post.createdAt,
+        edited: post.updatedAt,
         content: post.content,
         reposted: post.reposted,
         comments: post.comments,
@@ -56,8 +48,8 @@ export function getPostDataForEditResponse(post) {
     return {
         postId: post._id,
         userId: post.userId._id,
-        date: post.date,
-        edited: post.edited,
+        date: post.createdAt,
+        edited: post.updatedAt,
         content: post.content,
         reposted: post.reposted,
         comments: post.comments,
