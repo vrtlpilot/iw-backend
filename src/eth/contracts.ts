@@ -22,7 +22,7 @@ const contracts = JSON.parse(source)["contracts"];
 export function getContract(name: string) {
     // Get source
     let _src: string = contracts[name].src;
-    if(_src.length > 50) {
+    if(_src.length < 50) {
         const cpath = `${process.cwd}/sol/${_src.trim()}`;
         if(fs.existsSync(cpath))
             _src = fs.readFileSync(`${process.cwd}/sol/${_src.trim()}`, 'utf8');
