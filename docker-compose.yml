@@ -22,6 +22,7 @@ services:
           NODE_URL: http://icoworld.projects.oktend.com:8545
           PORT: 3000
           DB_URI: mongodb://db:27017/ico_world_db
+      image: ico/backend:$BUILD_ID
   backend-1:
     extends:
       service: app

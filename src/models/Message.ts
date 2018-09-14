@@ -18,7 +18,7 @@ const schema = new Schema({
         type: Boolean,
         default: false
     },
-    content:{
+    content: {
         type: String,
         required: true
     }

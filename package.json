@@ -17,6 +17,7 @@
   "dependencies": {
     "apollo-server": "^2.0.0",
     "apollo-server-koa": "^2.0.0",
+    "cookie": "^0.3.1",
     "dotenv": "^6.0.0",
     "graphql": "^0.13.2",
     "koa": "^2.5.2",
@@ -24,6 +25,7 @@
     "koa-passport": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-session": "^5.8.2",
+    "koa-socket-2": "^1.0.17",
     "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.6",
     "mongodb": "^3.1.1",
@@ -33,6 +35,7 @@
     "web3": "github:ethereum/web3.js"
   },
   "devDependencies": {
+    "@types/cookie": "^0.3.1",
     "@types/koa": "^2.0.46",
     "@types/koa-bodyparser": "^5.0.1",
     "@types/koa-passport": "^4.0.1",
