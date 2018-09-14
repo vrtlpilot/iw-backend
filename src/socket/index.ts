@@ -42,11 +42,11 @@ io.use(async (ctx, next) => {
 })
 
 io.on('connection', async (ctx) => {
-  const socketId = ctx.socket.id;
   const cookieKey = 'sess:key';
   const userId = getSession(ctx.socket.request.headers.cookie, cookieKey);
   if (userId) {
-    onlineUsers.set(userId, socketId);
+    const socket = ctx.socket;
+    onlineUsers.set(userId, socket);
   }
 });
 
@@ -93,7 +93,7 @@ io.on('newMessage', async (ctx, data) => {
     
     if (onlineUsers.has(partnerId)) {
       const partnerSocket = onlineUsers.get(partnerId);
-      io.to(partnerSocket).emit('newMessage', response);
+      partnerSocket.emit('newMessage', response);
     }
 
     ctx.socket.emit('newMessage', response);
