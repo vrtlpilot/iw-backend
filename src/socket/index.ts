@@ -57,11 +57,11 @@ io.on('disconnect', async (ctx) => {
 });
 
 io.on('newMessage', async (ctx, data) => {
-  if (!ctx.state.isAuth) {
-    return;
-  }
-
   try {
+    if (!ctx.state.isAuth) {
+      throw new Error('User is not authenticated');
+    }
+
     const authorId = ctx.state.userId;
     const { text, partnerId } = data;
 
