@@ -1,15 +1,10 @@
 pipeline {
   agent any
+  environment name: 'BUILD_ID', value: BUILD_ID
   stages {
     stage('Copy environment') {
       steps {
         sh 'cp /var/icoworld/.env .'
-      }
-    }
-
-    stage('Set BUILD_ID') {
-      steps {
-        sh 'export BUILD_ID=${BUILD_ID}'
       }
     }
 
