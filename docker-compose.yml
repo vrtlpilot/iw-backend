@@ -5,7 +5,7 @@ services:
     build: ./nginx
     ports:
       - "5000:3000"
-    container_name: balancer
+    container_name: balancer_fork
 
   db:
     image: mongo
