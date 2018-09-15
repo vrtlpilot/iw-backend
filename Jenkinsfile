@@ -29,16 +29,16 @@ pipeline {
     stage('Testing image ico/backend:${BUILD_ID}') {
       steps {
         sh('''#!/bin/bash
-          docker run -d -p 5555:3000 ico/backend:$BUILD_ID && \\
+          docker run -d -p 5555:3000 ico/backend-fork:$BUILD_ID && \\
           RESPONSE=`curl localhost:5555` || exit 2
           if [ \$RESPONSE != 'icoWorld' ]; then
-            docker stop ico/backend:$BUILD_ID
-            docker rm ico/backend:$BUILD_ID
+            docker stop ico/backend-fork:$BUILD_ID
+            docker rm ico/backend-fork:$BUILD_ID
             echo "backend did not answer"
             exit 1
           else
-            docker stop ico/backend:$BUILD_ID
-            docker rm ico/backend:$BUILD_ID
+            docker stop ico/backend-fork:$BUILD_ID
+            docker rm ico/backend-fork:$BUILD_ID
           fi
           ''')
       }
