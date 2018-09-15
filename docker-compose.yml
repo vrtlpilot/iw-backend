@@ -10,10 +10,10 @@ services:
   db:
     image: mongo
     volumes:
-      - "/var/mongo-data:/data/db"
+      - "/var/mongo-data-fork:/data/db"
       - "/var/mongo-backup:/opt"
     restart: on-failure
-    container_name: database
+    container_name: database_fork
   
   app:
       build:
