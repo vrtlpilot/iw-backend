@@ -24,6 +24,7 @@ pipeline {
       steps {
         sh 'docker-compose build --no-cache app backend-1 backend-2'
       }
+    }
     
     stage('Testing image ico/backend:${BUILD_ID}') {
       steps {
